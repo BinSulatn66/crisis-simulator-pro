@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>محاكي الأزمات المطور | Command Center v5.0</title>
+    <title>محاكي الأزمات المطور | Command Center v5.1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -72,6 +72,37 @@
             box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
         }
 
+        .ai-glow-btn {
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+        .ai-glow-btn::after {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #10b981, #34d399, #10b981);
+            z-index: -1;
+            border-radius: 12px;
+            filter: blur(8px);
+            opacity: 0.6;
+            animation: glow 3s linear infinite;
+        }
+        @keyframes glow {
+            0% { filter: blur(8px); opacity: 0.6; }
+            50% { filter: blur(12px); opacity: 0.9; }
+            100% { filter: blur(8px); opacity: 0.6; }
+        }
+
+        .typing-effect::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
         @media print {
             .no-print { display: none !important; }
             body { background: white; color: black; }
@@ -109,7 +140,7 @@
                     </div>
                     <div>
                         <h1 class="text-xl font-black text-white tracking-tight">محاكي الأزمات المطور</h1>
-                        <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Executive Command Center v5.0</p>
+                        <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Executive Command Center v5.1</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
@@ -131,7 +162,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Controls -->
-                <div class="lg:col-span-1 space-y-4">
+                <div class="lg:col-span-1 space-y-6">
                     <div class="glass-card p-6 rounded-3xl saudi-gradient-border">
                         <h3 class="text-sm font-bold text-emerald-400 mb-6 flex items-center gap-2 uppercase">
                             <i class="fas fa-sliders"></i> معايير المحاكاة
@@ -140,7 +171,7 @@
                         <div class="space-y-6">
                             <div>
                                 <label class="block text-[10px] text-slate-400 font-bold mb-2 uppercase">المنشأة المستهدفة</label>
-                                <select id="company-select" class="w-full bg-slate-800 border-none text-white rounded-xl p-3 text-sm focus:ring-2 focus:ring-emerald-500">
+                                <select id="company-select" class="w-full bg-slate-800 border-none text-white rounded-xl p-3 text-sm focus:ring-2 focus:ring-emerald-500 font-bold">
                                     <option value="aramco">أرامكو السعودية</option>
                                     <option value="sabic">سابك</option>
                                     <option value="alrajhi">مصرف الراجحي</option>
@@ -151,7 +182,7 @@
 
                             <div>
                                 <label class="block text-[10px] text-slate-400 font-bold mb-2 uppercase">نوع الأزمة النشطة</label>
-                                <select id="crisis-type-select" class="w-full bg-slate-800 border-none text-white rounded-xl p-3 text-sm focus:ring-2 focus:ring-emerald-500">
+                                <select id="crisis-type-select" class="w-full bg-slate-800 border-none text-white rounded-xl p-3 text-sm focus:ring-2 focus:ring-emerald-500 font-bold">
                                     <option value="supply">اضطراب سلاسل الإمداد (أمن قومي)</option>
                                     <option value="tech">حظر تكنولوجي (أزمة وصول سيادي)</option>
                                     <option value="carbon">ضرائب كربونية مفاجئة (CBAM)</option>
@@ -169,14 +200,37 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- AI Strategic Advisor Console -->
+                    <div class="glass-card p-6 rounded-3xl border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
+                        <h3 class="text-xs font-black text-emerald-400 mb-4 flex items-center gap-2 uppercase tracking-tighter">
+                            <i class="fas fa-brain-circuit"></i> منصة المستشار الاستراتيجي الذكي
+                        </h3>
+                        <div class="space-y-4">
+                            <button id="generate-ai-btn" onclick="generateAIAdvisory()" class="ai-glow-btn w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3 rounded-xl text-xs transition-all flex items-center justify-center gap-2">
+                                <i class="fas fa-wand-magic-sparkles"></i> توليد التوصية الذكية
+                            </button>
+                            
+                            <div id="ai-loading" class="hidden flex flex-col items-center py-4 space-y-3">
+                                <div class="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+                                <p class="text-[10px] text-emerald-400 font-bold animate-pulse">جاري تحليل المتغيرات الجيوسياسية والاستثمارية...</p>
+                            </div>
+
+                            <div id="ai-brief-container" class="hidden space-y-4 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
+                                <div id="ai-brief-content" class="text-[11px] leading-relaxed text-slate-300 font-medium space-y-4">
+                                    <!-- Dynamic AI Content Here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Results -->
-                <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 content-start">
                     <div class="glass-card p-6 rounded-3xl flex flex-col justify-center items-center text-center">
                         <p class="text-[10px] text-slate-400 font-bold uppercase mb-2">درجة الصمود المالي</p>
                         <div id="resilience-score" class="text-5xl font-black text-emerald-500">B+</div>
-                        <p id="resilience-desc" class="text-xs text-slate-300 mt-4 leading-relaxed">المنشأة تمتلك سيولة كافية لتغطية العمليات لـ 6 أشهر.</p>
+                        <p id="resilience-desc" class="text-xs text-slate-300 mt-4 leading-relaxed font-bold">المنشأة تمتلك سيولة كافية لتغطية العمليات لـ 6 أشهر.</p>
                     </div>
 
                     <div class="glass-card p-6 rounded-3xl space-y-4">
@@ -226,12 +280,11 @@
                         <label class="block text-[10px] text-slate-400 font-bold mb-3 uppercase">البرنامج التنفيذي المستهدف</label>
                         <select id="vision-select" class="w-full bg-slate-900 border border-white/10 text-white rounded-2xl p-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500">
                             <option value="ntp">1. برنامج التحول الوطني</option>
-                            <option value="nidlp">2. برنامج تطوير الصناعة والخدمات (ندلب)</option>
+                            <option value="nidlp" selected>2. برنامج تطوير الصناعة والخدمات (ندلب)</option>
                             <option value="pif">3. برنامج صندوق الاستثمارات العامة</option>
                             <option value="hajj">4. برنامج خدمة ضيوف الرحمن</option>
                             <option value="health">5. برنامج تحول القطاع الصحي</option>
                             <option value="housing">6. برنامج الإسكان</option>
-                            <span>...</span>
                         </select>
                     </div>
                     <div class="flex gap-8">
@@ -286,7 +339,7 @@
                 </div>
                 
                 <div id="war-room-console" class="p-8 h-96 overflow-y-auto font-mono text-xs leading-relaxed space-y-4 bg-slate-950/50">
-                    <div class="text-slate-500 italic">في انتظار إطلاق الجلسة من قبل القيادة...</div>
+                    <div class="text-slate-500 italic text-center py-20">في انتظار إطلاق الجلسة من قبل القيادة...</div>
                 </div>
             </div>
         </section>
@@ -301,11 +354,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
                     <div class="md:col-span-2">
                         <label class="block text-[10px] text-slate-400 font-bold mb-3 uppercase">تعريف الأزمة الجديدة</label>
-                        <input id="custom-crisis-name" type="text" placeholder="مثلاً: انقطاع كابلات الإنترنت البحرية..." class="w-full bg-slate-900 border-none rounded-2xl p-4 text-sm text-white focus:ring-2 focus:ring-yellow-500">
+                        <input id="custom-crisis-name" type="text" placeholder="مثلاً: انقطاع كابلات الإنترنت البحرية..." class="w-full bg-slate-900 border-none rounded-2xl p-4 text-sm text-white focus:ring-2 focus:ring-yellow-500 font-bold">
                     </div>
                     <div>
                         <label class="block text-[10px] text-slate-400 font-bold mb-3 uppercase">القطاع المتأثر</label>
-                        <select id="custom-sector" class="w-full bg-slate-900 border-none rounded-2xl p-4 text-sm text-white focus:ring-2 focus:ring-yellow-500">
+                        <select id="custom-sector" class="w-full bg-slate-900 border-none rounded-2xl p-4 text-sm text-white focus:ring-2 focus:ring-yellow-500 font-bold">
                             <option value="tech">التقنية والاتصالات</option>
                             <option value="energy">الطاقة والمرافق</option>
                             <option value="finance">القطاع المصرفي</option>
@@ -322,7 +375,7 @@
     </main>
 
     <!-- Navigation (Mobile) -->
-    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 flex gap-4 glass-card px-6 py-4 rounded-full no-print z-50 shadow-2xl">
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 flex gap-6 glass-card px-8 py-4 rounded-full no-print z-50 shadow-2xl border border-emerald-500/20">
         <a href="#corporate-simulator" class="text-slate-400 hover:text-emerald-400 transition-colors"><i class="fas fa-building text-lg"></i></a>
         <a href="#vision-simulator" class="text-slate-400 hover:text-emerald-400 transition-colors"><i class="fas fa-chart-line text-lg"></i></a>
         <a href="#war-room" class="text-slate-400 hover:text-emerald-400 transition-colors"><i class="fas fa-shield-halved text-lg"></i></a>
@@ -338,6 +391,10 @@
             cyber: { comment: "أنظمة التشفير الكمي تقلل احتمالية الاختراق بنسبة 99%.", return: "5.1%", resilience: "A", threats: ["تشفير البيانات الحساسة", "توقف الخدمات الرقمية"], plans: ["تفعيل مراكز التعافي من الكوارث", "عزل الأنظمة الحرجة"] }
         };
 
+        const companyNames = { aramco: "أرامكو السعودية", sabic: "سابك", alrajhi: "مصرف الراجحي", stc: "إس تي سي (stc)", maaden: "معادن" };
+        const visionPrograms = { ntp: "برنامج التحول الوطني", nidlp: "برنامج تطوير الصناعة (ندلب)", pif: "برنامج صندوق الاستثمارات العامة", hajj: "برنامج خدمة ضيوف الرحمن", health: "برنامج تحول القطاع الصحي", housing: "برنامج الإسكان" };
+        const crisisNames = { supply: "اضطراب سلاسل الإمداد", tech: "حظر تكنولوجي دولي", carbon: "ضرائب كربونية مفاجئة", cyber: "هجوم سيبراني واسع" };
+
         const warRoomMessages = [
             { role: "CEO", text: "قم بتفعيل خطة الطوارئ 'المستوى الثاني' فوراً." },
             { role: "CFO", text: "تم رصد ضغط على السيولة، سنقوم بتسييل 10% من المحفظة التحوطية." },
@@ -350,17 +407,78 @@
         function updateDashboard() {
             const crisisId = document.getElementById('crisis-type-select').value;
             const capex = document.getElementById('capex-slider').value;
-            const data = crisisData[crisisId];
+            const data = crisisData[crisisId] || crisisData.supply;
 
             document.getElementById('capex-val').innerText = capex + '%';
-            document.getElementById('return-val').innerText = (parseFloat(data.return) * (capex / 10)).toFixed(1) + '%';
+            document.getElementById('return-val').innerText = (parseFloat(data.return) * (capex / 10 + 1)).toFixed(1) + '%';
             document.getElementById('analyst-comment').innerText = `"${data.comment}"`;
-            document.getElementById('resilience-score').innerText = data.resilience;
+            document.getElementById('resilience-score').innerText = capex > 50 ? "A+" : (capex > 20 ? "B+" : "C-");
 
             // Vision Updates
             document.getElementById('vision-threats').innerHTML = data.threats.map(t => `<div class="bg-red-950/20 p-4 rounded-2xl border border-red-500/10 text-xs text-red-200">- ${t}</div>`).join('');
             document.getElementById('vision-plans').innerHTML = data.plans.map(p => `<div class="bg-emerald-950/20 p-4 rounded-2xl border border-emerald-500/10 text-xs text-emerald-200">- ${p}</div>`).join('');
             document.getElementById('risk-index').innerText = (80 - capex / 2).toFixed(0) + '%';
+        }
+
+        async function generateAIAdvisory() {
+            const btn = document.getElementById('generate-ai-btn');
+            const loader = document.getElementById('ai-loading');
+            const container = document.getElementById('ai-brief-container');
+            const content = document.getElementById('ai-brief-content');
+            
+            const company = companyNames[document.getElementById('company-select').value];
+            const crisis = crisisNames[document.getElementById('crisis-type-select').value];
+            const capex = parseInt(document.getElementById('capex-slider').value);
+            const vision = visionPrograms[document.getElementById('vision-select').value];
+
+            btn.classList.add('hidden');
+            loader.classList.remove('hidden');
+            container.classList.add('hidden');
+            content.innerHTML = "";
+
+            await new Promise(r => setTimeout(r, 2500));
+
+            loader.classList.add('hidden');
+            container.classList.remove('hidden');
+
+            const sections = [
+                {
+                    title: "1. التقرير التشخيصي للمخاطر",
+                    text: `بناءً على اختيار ${company} وتحليل أزمة ${crisis}، نرى تهديداً مباشراً لتدفقات النقد التشغيلية. التهديد يتركز في انقطاع الوصول للأصول الاستراتيجية، مما قد يؤدي لتعطيل الإنتاج بنسبة تتراوح بين 15-25% في الربع القادم.`
+                },
+                {
+                    title: "2. خارطة طريق التحوط الرأسمالي",
+                    text: `مستوى التحوط الحالي (${capex}%) ${capex < 30 ? 'غير كافٍ إطلاقاً' : 'بدأ في بناء جدار حماية'}. نوصي فوراً بـ: ${capex < 40 ? 'زيادة الإنفاق الرأسمالي المرن لتأمين سلاسل إمداد محلية بديلة.' : 'الاستمرار في تحويل السيولة نحو مراكز البيانات السيادية والمخزون الاستراتيجي.'} التركيز يجب أن ينصب على تقليل الاعتماد على الموردين الخارجيين.`
+                },
+                {
+                    title: "3. المواءمة السيادية ورؤية 2030",
+                    text: `لحماية مستهدفات ${vision}، يجب على ${company} لعب دور قيادي في توطين المكونات الصناعية. التحرك السريع سيضمن حماية "المحتوى المحلي" وتعزيز مكانة المملكة كمركز إمداد عالمي مقاوم للأزمات الجيوسياسية.`
+                }
+            ];
+
+            for (const section of sections) {
+                const titleEl = document.createElement('div');
+                titleEl.className = "text-emerald-400 font-black text-xs border-r-2 border-emerald-500 pr-2 mb-1";
+                titleEl.innerText = section.title;
+                content.appendChild(titleEl);
+
+                const textEl = document.createElement('p');
+                textEl.className = "mb-4 typing-effect";
+                content.appendChild(textEl);
+
+                await typeText(textEl, section.text);
+                textEl.classList.remove('typing-effect');
+            }
+            
+            btn.classList.remove('hidden');
+            btn.innerHTML = '<i class="fas fa-arrows-rotate"></i> إعادة توليد التوصية';
+        }
+
+        async function typeText(element, text) {
+            for (let i = 0; i < text.length; i++) {
+                element.innerHTML += text.charAt(i);
+                await new Promise(r => setTimeout(r, 15));
+            }
         }
 
         function launchWarRoom() {
@@ -376,7 +494,7 @@
                 }
                 const msg = warRoomMessages[i];
                 const time = new Date().toLocaleTimeString('ar-SA');
-                console.innerHTML = `<div class="mb-3"><span class="text-slate-500">[${time}]</span> <span class="text-blue-400 font-bold">${msg.role}:</span> <span class="text-white">${msg.text}</span></div>` + console.innerHTML;
+                console.innerHTML = `<div class="mb-3 border-b border-white/5 pb-2"><span class="text-slate-500">[${time}]</span> <span class="text-blue-400 font-bold">${msg.role}:</span> <span class="text-white">${msg.text}</span></div>` + console.innerHTML;
                 i++;
             }, 2500);
         }
@@ -392,6 +510,7 @@
             select.appendChild(newOption);
             select.value = 'custom';
             
+            crisisNames.custom = name;
             crisisData.custom = { 
                 comment: "أزمة مخصصة تم حقنها. الأنظمة قيد التحليل لاستخراج استراتيجية الدفاع.", 
                 return: "0.0%", 
