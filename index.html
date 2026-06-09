@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crisis Simulator | محاكي الأزمات</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .gradient-bg { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-5xl mx-auto">
+        <!-- Header -->
+        <header class="gradient-bg text-white rounded-2xl p-8 mb-8 shadow-xl relative overflow-hidden">
+            <div class="relative z-10">
+                <h1 class="text-3xl font-bold mb-2">Crisis Simulator <span class="text-blue-400">|</span> محاكي الأزمات</h1>
+                <p class="text-slate-300">Strategic MVP for Rapid Response and Tactical Hedging Analysis</p>
+            </div>
+            <i class="fas fa-shield-halved absolute -right-4 -bottom-4 text-9xl opacity-10"></i>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Sidebar: Controls -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-semibold mb-4 text-slate-800 flex items-center">
+                        <i class="fas fa-sliders mr-2 text-blue-600"></i> Parameters
+                    </h2>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-slate-600 mb-2">Crisis Scenario</label>
+                        <select id="scenario" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none transition">
+                            <option value="cbam">EU Carbon Tax (CBAM) Impact</option>
+                            <option value="supply">Supply Chain Shutdown</option>
+                            <option value="vision">KSA Vision 2040 Regulatory Shift</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-slate-600 mb-2">Digital Maturity (1-10)</label>
+                        <input type="range" id="digital" min="1" max="10" value="5" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                        <div class="flex justify-between text-xs text-slate-400 mt-1"><span>Low</span><span id="digital-val">5</span><span>High</span></div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-slate-600 mb-2">Cash Reserves (Months)</label>
+                        <input type="range" id="cash" min="0" max="24" value="6" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                        <div class="flex justify-between text-xs text-slate-400 mt-1"><span>0m</span><span id="cash-val">6m</span><span>24m</span></div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="checkbox" id="hedging" class="form-checkbox h-5 w-5 text-blue-600 rounded">
+                            <span class="text-sm text-slate-700">Active Financial Hedging</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="checkbox" id="suppliers" class="form-checkbox h-5 w-5 text-blue-600 rounded">
+                            <span class="text-sm text-slate-700">Diversified Suppliers</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Dashboard: Results -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Metrics Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                        <p class="text-sm font-medium text-slate-500 uppercase">Readiness Score</p>
+                        <div class="flex items-end justify-between">
+                            <h3 id="readiness-score" class="text-4xl font-bold text-slate-800">0%</h3>
+                            <span id="readiness-status" class="px-3 py-1 rounded-full text-xs font-bold uppercase"></span>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                        <p class="text-sm font-medium text-slate-500 uppercase">Risk Exposure</p>
+                        <div class="flex items-end justify-between">
+                            <h3 id="risk-level" class="text-4xl font-bold text-slate-800">LOW</h3>
+                            <i id="risk-icon" class="fas fa-circle-exclamation text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Card -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 min-h-[300px]">
+                    <h2 class="text-lg font-semibold mb-6 text-slate-800 border-b pb-4">Tactical Hedging & Analysis</h2>
+                    
+                    <div id="scenario-content" class="space-y-6">
+                        <!-- Dynamic Content Inject -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scenarios = {
+            cbam: {
+                title: "EU Carbon Tax (CBAM)",
+                desc: "Impact of new EU carbon border adjustment mechanisms on export costs.",
+                hedging: [
+                    "Accelerate green energy transition in production.",
+                    "Invest in Carbon Credit offsets for short-term mitigation.",
+                    "استثمار في تكنولوجيا الإنتاج النظيف لتقليل تكاليف التصدير"
+                ],
+                baseRisk: 70
+            },
+            supply: {
+                title: "Supply Chain Shutdown",
+                desc: "Total blockage of primary trade routes or key supplier bankruptcy.",
+                hedging: [
+                    "Secure 6-month buffer stock for critical components.",
+                    "Establish 'Near-shoring' production hubs.",
+                    "تفعيل خطوط التوريد البديلة فوراً وتأمين المخزون الاستراتيجي"
+                ],
+                baseRisk: 85
+            },
+            vision: {
+                title: "Vision 2040 Regulatory Shift",
+                desc: "Rapid shift in local labor laws and localization requirements in KSA.",
+                hedging: [
+                    "Automate low-skilled processes to reduce headcount dependency.",
+                    "Scale internal training academies for specialized roles.",
+                    "مواءمة خطط التوظيف مع التوجهات التنظيمية الجديدة لرؤية 2040"
+                ],
+                baseRisk: 50
+            }
+        };
+
+        function calculate() {
+            const scenarioKey = document.getElementById('scenario').value;
+            const digital = parseInt(document.getElementById('digital').value);
+            const cash = parseInt(document.getElementById('cash').value);
+            const hedging = document.getElementById('hedging').checked;
+            const suppliers = document.getElementById('suppliers').checked;
+
+            document.getElementById('digital-val').innerText = digital;
+            document.getElementById('cash-val').innerText = cash + 'm';
+
+            // Logic matching Python MVP
+            let score = (digital * 4);
+            score += Math.min(cash * 2, 20);
+            if (hedging) score += 20;
+            if (suppliers) score += 20;
+
+            const scenario = scenarios[scenarioKey];
+            let risk = scenario.baseRisk - (score * 0.5);
+
+            // Update UI
+            const scoreEl = document.getElementById('readiness-score');
+            const statusEl = document.getElementById('readiness-status');
+            scoreEl.innerText = score + '%';
+            
+            if(score < 40) {
+                statusEl.innerText = 'Critical / حرج';
+                statusEl.className = 'px-3 py-1 rounded-full text-xs font-bold uppercase bg-red-100 text-red-600';
+            } else if(score < 70) {
+                statusEl.innerText = 'Stable / مستقر';
+                statusEl.className = 'px-3 py-1 rounded-full text-xs font-bold uppercase bg-yellow-100 text-yellow-600';
+            } else {
+                statusEl.innerText = 'Resilient / صلب';
+                statusEl.className = 'px-3 py-1 rounded-full text-xs font-bold uppercase bg-green-100 text-green-600';
+            }
+
+            const riskLevel = risk > 60 ? 'HIGH' : (risk > 30 ? 'MEDIUM' : 'LOW');
+            const riskEl = document.getElementById('risk-level');
+            const iconEl = document.getElementById('risk-icon');
+            riskEl.innerText = riskLevel;
+            riskEl.className = \`text-4xl font-bold \${riskLevel === 'HIGH' ? 'text-red-600' : (riskLevel === 'MEDIUM' ? 'text-yellow-600' : 'text-green-600')}\`;
+            iconEl.className = \`fas fa-circle-exclamation text-2xl \${riskLevel === 'HIGH' ? 'text-red-600' : (riskLevel === 'MEDIUM' ? 'text-yellow-600' : 'text-green-600')}\`;
+
+            // Content
+            let html = \`
+                <div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">\${scenario.title}</h3>
+                    <p class="text-slate-600 mb-6">\${scenario.desc}</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-slate-700 mb-3 flex items-center">
+                        <i class="fas fa-list-check mr-2 text-blue-500"></i> Tactical Hedging Steps
+                    </h4>
+                    <ul class="space-y-3">
+                        \${scenario.hedging.map(step => \`
+                            <li class="flex items-start bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                <i class="fas fa-chevron-right mt-1.5 mr-3 text-xs text-blue-400"></i>
+                                <span class="text-slate-700 text-sm">\${step}</span>
+                            </li>
+                        \`).join('')}
+                    </ul>
+                </div>
+            \`;
+            document.getElementById('scenario-content').innerHTML = html;
+        }
+
+        // Listeners
+        ['scenario', 'digital', 'cash', 'hedging', 'suppliers'].forEach(id => {
+            document.getElementById(id).addEventListener('input', calculate);
+        });
+
+        // Init
+        calculate();
+    </script>
+</body>
+</html>
