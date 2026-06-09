@@ -3,318 +3,294 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محاكي الأزمات المطور | Crisis Simulator Pro</title>
+    <title>محاكي الأزمات الاستراتيجي | Crisis Simulator Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;600;700&display=swap');
-        body { font-family: 'Noto Sans Arabic', sans-serif; background-color: #f8fafc; }
-        .gradient-bg { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); }
-        .search-shadow { box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.1); }
+        body { font-family: 'Noto Sans Arabic', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        .saudi-green { color: #006C35; }
+        .saudi-bg-green { background-color: #006C35; }
+        .card-dark { background-color: #1e293b; border: 1px solid #334155; }
+        .slider-accent { accent-color: #006C35; }
+        input[type=range]::-webkit-slider-runnable-track { background: #334155; border-radius: 10px; }
+        input[type=range]::-webkit-slider-thumb { margin-top: -4px; }
     </style>
 </head>
-<body class="p-4 md:p-8">
-    <div class="max-w-6xl mx-auto">
+<body class="p-4 md:p-6 min-h-screen">
+    <div class="max-w-md mx-auto space-y-6">
         <!-- Header -->
-        <header class="gradient-bg text-white rounded-2xl p-8 mb-8 shadow-xl relative overflow-hidden">
-            <div class="relative z-10 text-right">
-                <h1 class="text-3xl font-bold mb-2">محاكي الأزمات المطور <span class="text-blue-400">|</span> <span class="font-sans">Crisis Simulator Pro</span></h1>
-                <p class="text-slate-300">لوحة تحكم الاستخبارات الاستراتيجية للشركات المدرجة في تداول</p>
+        <header class="text-center space-y-2 py-4">
+            <div class="inline-block p-3 rounded-full bg-green-500/10 mb-2">
+                <i class="fas fa-shield-halved text-3xl text-green-500"></i>
             </div>
-            <i class="fas fa-chart-line absolute -left-4 -bottom-4 text-9xl opacity-10"></i>
+            <h1 class="text-2xl font-bold text-white leading-tight">نظام محاكاة الصمود الاستراتيجي</h1>
+            <p class="text-slate-400 text-sm italic">الرؤية الاستخباراتية للأزمات العابرة للحدود</p>
         </header>
 
-        <!-- Company Intelligence Bar -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            <div class="relative group">
-                <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                    <i class="fas fa-magnifying-glass text-slate-400"></i>
+        <!-- Tadawul Selector -->
+        <section class="card-dark rounded-2xl p-5 shadow-2xl">
+            <label class="block text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
+                <i class="fas fa-building text-green-500"></i> محدد شركات تداول (Tadawul)
+            </label>
+            <select id="company-selector" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-green-500 outline-none transition appearance-none">
+                <option value="custom">-- اختر الشركة لتحميل البيانات --</option>
+                <option value="aramco">أرامكو السعودية (Aramco)</option>
+                <option value="sabic">سابك (SABIC)</option>
+                <option value="alrajhi">مصرف الراجحي (Al Rajhi)</option>
+                <option value="stc">إس تي سي (STC)</option>
+                <option value="maaden">معادن (Ma'aden)</option>
+            </select>
+        </section>
+
+        <!-- Interactive Sliders -->
+        <section class="card-dark rounded-2xl p-5 space-y-6 shadow-2xl">
+            <h2 class="text-lg font-bold text-white border-b border-slate-700 pb-3 flex items-center gap-2">
+                <i class="fas fa-sliders-h text-green-500"></i> معايير التحكم الاستباقي
+            </h2>
+            
+            <!-- CapEx Hedging Slider -->
+            <div class="space-y-3">
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-slate-300">نسبة التحوط الاستثماري (توجيه الإنفاق)</span>
+                    <span id="hedging-val" class="font-bold text-green-400">0%</span>
                 </div>
-                <input type="text" id="company-search" placeholder="ابحث عن شركة في تداول (مثل أرامكو، سابك...)" 
-                    class="w-full bg-white border border-slate-200 rounded-xl py-4 pr-12 pl-4 outline-none focus:ring-2 focus:ring-blue-500 transition search-shadow text-right">
-                <div id="search-results" class="absolute z-20 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-2xl hidden overflow-hidden text-right">
-                    <!-- Results Injected Here -->
-                </div>
+                <input type="range" id="hedging-slider" min="0" max="50" value="0" class="w-full h-2 rounded-lg cursor-pointer slider-accent">
+                <p class="text-[10px] text-slate-500 leading-tight">توجيه الإنفاق الرأسمالي للقطاعات البديلة المرنة لامتصاص الصدمات.</p>
             </div>
-            <div class="relative">
-                <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-blue-500">
-                    <i class="fas fa-layer-group"></i>
+
+            <!-- Other Sliders -->
+            <div class="grid grid-cols-1 gap-4">
+                <div class="space-y-2">
+                    <div class="flex justify-between text-xs text-slate-400">
+                        <span>النضج الرقمي</span>
+                        <span id="digital-val">50%</span>
+                    </div>
+                    <input type="range" id="digital-slider" min="0" max="100" value="50" class="w-full h-1.5 rounded-lg cursor-pointer slider-accent">
                 </div>
-                <select id="sector-selector" class="w-full bg-white border border-slate-200 rounded-xl py-4 pr-12 pl-4 outline-none focus:ring-2 focus:ring-blue-500 transition search-shadow appearance-none text-right">
-                    <option value="custom">إعداد يدوي للقطاع</option>
-                    <option value="energy">الطاقة والبتروكيماويات</option>
-                    <option value="banking">الخدمات المصرفية والمالية</option>
-                    <option value="telecom">الاتصالات</option>
-                    <option value="mining">التعدين والموارد</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Sidebar: Controls -->
-            <div class="lg:col-span-1 space-y-6">
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 text-right">
-                    <h2 class="text-lg font-semibold mb-4 text-slate-800 flex items-center justify-end">
-                        معايير المنشأة <i class="fas fa-sliders ml-2 text-blue-600"></i>
-                    </h2>
-                    
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-slate-600 mb-2">سيناريو الأزمة النشط</label>
-                        <select id="scenario" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none transition text-right">
-                            <option value="cbam">ضريبة الكربون في الاتحاد الأوروبي (CBAM)</option>
-                            <option value="supply">إغلاق سلاسل التوريد العالمية</option>
-                            <option value="vision">التحول التنظيمي لرؤية 2030</option>
-                        </select>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-xs text-slate-400">
+                        <span>احتياطي السيولة</span>
+                        <span id="cash-val">50%</span>
                     </div>
-
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-slate-600 mb-2">النضج التقني/الرقمي</label>
-                        <input type="range" id="digital" min="1" max="10" value="5" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
-                        <div class="flex justify-between text-xs text-slate-400 mt-1"><span>منخفض</span><span id="digital-val">5</span><span>مرتفع</span></div>
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-slate-600 mb-2">احتياطي السيولة (بالأشهر)</label>
-                        <input type="range" id="cash" min="0" max="24" value="6" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
-                        <div class="flex justify-between text-xs text-slate-400 mt-1"><span>0 شهر</span><span id="cash-val">6 أشهر</span><span>24 شهر</span></div>
-                    </div>
-
-                    <div class="space-y-3">
-                        <label class="flex items-center space-x-3 space-x-reverse cursor-pointer justify-end">
-                            <span class="text-sm text-slate-700 font-medium">التحوط المالي نشط</span>
-                            <input type="checkbox" id="hedging" class="form-checkbox h-5 w-5 text-blue-600 rounded">
-                        </label>
-                        <label class="flex items-center space-x-3 space-x-reverse cursor-pointer justify-end">
-                            <span class="text-sm text-slate-700 font-medium">سلاسل قيمة متنوعة</span>
-                            <input type="checkbox" id="suppliers" class="form-checkbox h-5 w-5 text-blue-600 rounded">
-                        </label>
-                    </div>
-                </div>
-
-                <div id="company-info-card" class="bg-blue-50 rounded-2xl p-6 border border-blue-100 hidden text-right">
-                    <h3 class="font-bold text-blue-800 mb-1" id="active-company-name">اسم الشركة</h3>
-                    <p class="text-xs text-blue-600 uppercase tracking-wider" id="active-company-ticker">الرمز: 0000</p>
-                    <div class="mt-4 pt-4 border-t border-blue-200 text-sm text-blue-700 italic" id="analyst-note">
-                        تم تحميل الإعدادات المسبقة من أحدث الإفصاحات المالية لتداول.
-                    </div>
+                    <input type="range" id="cash-slider" min="0" max="100" value="50" class="w-full h-1.5 rounded-lg cursor-pointer slider-accent">
                 </div>
             </div>
 
-            <!-- Main Dashboard: Results -->
-            <div class="lg:col-span-2 space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 text-right">
-                        <p class="text-sm font-medium text-slate-500 uppercase">المرونة المؤسسية</p>
-                        <div class="flex items-end justify-between flex-row-reverse">
-                            <h3 id="readiness-score" class="text-5xl font-bold text-slate-800">0%</h3>
-                            <span id="readiness-status" class="px-3 py-1 rounded-full text-xs font-bold uppercase"></span>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 text-right">
-                        <p class="text-sm font-medium text-slate-500 uppercase">مستوى المخاطر الاستراتيجية</p>
-                        <div class="flex items-end justify-between flex-row-reverse">
-                            <h3 id="risk-level" class="text-5xl font-bold text-slate-800">منخفض</h3>
-                            <i id="risk-icon" class="fas fa-circle-exclamation text-3xl"></i>
-                        </div>
-                    </div>
-                </div>
+            <div id="hedging-alert" class="hidden bg-green-500/20 border border-green-500/50 p-3 rounded-xl">
+                <p class="text-xs text-green-400 flex items-start gap-2">
+                    <i class="fas fa-check-circle mt-0.5"></i>
+                    <span>التحوط الاستثماري ممتاز. توجه الإنفاق يحمي التدفق النقدي والاحتياطي دون الحاجة للاقتراض.</span>
+                </p>
+            </div>
+        </section>
 
-                <!-- Analysis Card -->
-                <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 min-h-[400px] text-right">
-                    <h2 class="text-xl font-bold mb-6 text-slate-800 border-b pb-4 flex justify-between items-center flex-row-reverse">
-                        <span>تعليق المحلل والخطوات التكتيكية</span>
-                        <span class="text-xs bg-slate-100 px-2 py-1 rounded text-slate-500 font-normal">محسوب تلقائياً</span>
-                    </h2>
-                    
-                    <div id="scenario-content" class="space-y-6">
-                        <!-- Dynamic Content Inject -->
-                    </div>
+        <!-- Readiness Metrics -->
+        <div class="grid grid-cols-2 gap-4">
+            <div class="card-dark rounded-2xl p-4 text-center space-y-1">
+                <p class="text-[10px] text-slate-400 uppercase tracking-wider font-bold">مؤشر الصمود الاستباقي</p>
+                <h3 id="readiness-score" class="text-3xl font-black text-white">0%</h3>
+                <p id="readiness-status" class="text-[10px] font-bold text-slate-500 uppercase">قيد الحساب...</p>
+            </div>
+            <div class="card-dark rounded-2xl p-4 text-center space-y-1">
+                <p class="text-[10px] text-slate-400 uppercase tracking-wider font-bold">مستوى التعرض للمخاطر</p>
+                <h3 id="risk-level" class="text-2xl font-black text-red-500">مرتفع</h3>
+                <div class="flex justify-center gap-1 mt-1">
+                    <div id="risk-bar-1" class="h-1 w-4 bg-red-500 rounded-full"></div>
+                    <div id="risk-bar-2" class="h-1 w-4 bg-slate-700 rounded-full"></div>
+                    <div id="risk-bar-3" class="h-1 w-4 bg-slate-700 rounded-full"></div>
                 </div>
             </div>
         </div>
+
+        <!-- Economic Impact Dashboard -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2 px-2">
+                <i class="fas fa-chart-pie text-green-500"></i> لوحة الأثر الاقتصادي لدراسة الصمود
+            </h2>
+            <div class="grid grid-cols-1 gap-3">
+                <div class="card-dark rounded-xl p-4 flex justify-between items-center">
+                    <div>
+                        <p class="text-xs text-slate-400">تفادي التأثير الحاد للأزمات</p>
+                        <p class="text-sm font-bold text-white">20% - 40%</p>
+                    </div>
+                    <i class="fas fa-shield-virus text-slate-600 text-xl"></i>
+                </div>
+                <div class="card-dark rounded-xl p-4 flex justify-between items-center border-r-4 border-r-green-500">
+                    <div>
+                        <p class="text-xs text-slate-400">زيادة جاهزية المنشأة</p>
+                        <p class="text-sm font-bold text-green-400">> 80%</p>
+                    </div>
+                    <i class="fas fa-rocket text-green-500 text-xl"></i>
+                </div>
+                <div class="card-dark rounded-xl p-4 flex justify-between items-center">
+                    <div>
+                        <p class="text-xs text-slate-400">تجنب الخسائر العميقة</p>
+                        <p class="text-sm font-bold text-white">25% - 35%</p>
+                    </div>
+                    <i class="fas fa-chart-line-down text-slate-600 text-xl rotate-180"></i>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="card-dark rounded-xl p-4 text-center">
+                        <p class="text-[10px] text-slate-400 mb-1">تدفق نقدي ثابت</p>
+                        <p class="text-lg font-bold text-blue-400">50%</p>
+                    </div>
+                    <div class="card-dark rounded-xl p-4 text-center">
+                        <p class="text-[10px] text-slate-400 mb-1">حماية خطط النمو</p>
+                        <p class="text-lg font-bold text-purple-400">60%</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Intelligence Module -->
+        <section class="card-dark rounded-2xl overflow-hidden shadow-2xl">
+            <div class="bg-slate-800 px-5 py-3 border-b border-slate-700">
+                <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                    <i class="fas fa-brain text-green-500"></i> مستشار الاستخبارات الجيوسياسية ورؤية 2030
+                </h2>
+            </div>
+            <div class="p-5 space-y-5">
+                <div class="space-y-2">
+                    <h3 class="text-xs font-bold text-green-500 uppercase">تحليل الأزمات الراكدة والتحول العالمي</h3>
+                    <p class="text-[11px] text-slate-300 leading-relaxed">
+                        بناءً على سياسات مجلس الأمن والتحولات الجيوسياسية في مضيق هرمز، يتطلب الوضع الحالي مرونة عالية في طرق الإمداد البديلة وتأمين المسارات اللوجستية لمواجهة أي تعطل مفاجئ في حركة الملاحة العالمية.
+                    </p>
+                </div>
+                <div class="space-y-2 border-t border-slate-700 pt-4">
+                    <h3 class="text-xs font-bold text-green-500 uppercase">مواءمة رؤية السعودية 2030</h3>
+                    <p class="text-[11px] text-slate-300 leading-relaxed">
+                        التركيز على تعظيم المحتوى المحلي وتنويع الإنفاق الرأسمالي (CapEx) يقلل الاعتماد على الاستيراد الخارجي، مما يعزز السيادة الاقتصادية للمنشأة وتوافقها مع مستهدفات الاستدامة الوطنية.
+                    </p>
+                </div>
+                <div id="company-advice" class="bg-blue-500/10 border-l-4 border-l-blue-500 p-3 rounded-r-lg">
+                    <p class="text-[10px] text-blue-400 italic" id="advice-text">اختر شركة للحصول على نصيحة استراتيجية مخصصة...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center pb-10">
+            <p class="text-[10px] text-slate-600 uppercase tracking-widest font-bold">Executive Grade Intelligence Tool</p>
+        </footer>
     </div>
 
     <script>
-        const companies = [
-            { name: "أرامكو السعودية", ticker: "2222", sector: "energy", digital: 9, cash: 24, hedging: true, suppliers: true, note: "مرونة تشغيلية من الطراز الأول واحتياطي سيولة كبير." },
-            { name: "سابك", ticker: "2010", sector: "energy", digital: 8, cash: 18, hedging: true, suppliers: true, note: "يتطلب التعرض لدورات التجارة العالمية تحوطاً نشطاً للسلع." },
-            { name: "مصرف الراجحي", ticker: "1120", sector: "banking", digital: 9, cash: 24, hedging: true, suppliers: false, note: "بنية تحتية رقمية قوية؛ التركيز على التعرض للائتمان المحلي." },
-            { name: "إس تي سي (stc)", ticker: "7010", sector: "telecom", digital: 10, cash: 12, hedging: false, suppliers: true, note: "رائد السوق في النضج الرقمي؛ حساس للتغيرات التنظيمية." },
-            { name: "معادن", ticker: "1211", sector: "mining", digital: 7, cash: 9, hedging: true, suppliers: true, note: "كثافة رأس مال عالية مع تعرض للسلع ذات الدورات الطويلة." }
-        ];
-
-        const sectorDefaults = {
-            energy: { digital: 8, cash: 18, hedging: true, suppliers: true },
-            banking: { digital: 9, cash: 24, hedging: true, suppliers: false },
-            telecom: { digital: 10, cash: 12, hedging: false, suppliers: true },
-            mining: { digital: 6, cash: 8, hedging: true, suppliers: true }
+        const companyData = {
+            aramco: { digital: 90, cash: 95, hedging: 15, advice: "لأرامكو: التركيز على تأمين سلاسل إمداد الطاقة وتقنيات الهيدروجين الأزرق يعزز الصمود أمام تحولات الطاقة العالمية." },
+            sabic: { digital: 85, cash: 80, hedging: 25, advice: "لسابك: تنويع المنتجات الكيماوية المتخصصة يقلل الحساسية تجاه تقلبات أسعار النفط الخام العالمية." },
+            alrajhi: { digital: 95, cash: 85, hedging: 10, advice: "للراجحي: التوسع في الخدمات المصرفية الرقمية والتمويل الأخضر يضمن الريادة في التحول المالي الوطني." },
+            stc: { digital: 100, cash: 75, hedging: 20, advice: "إس تي سي: الاستثمار في مراكز البيانات الضخمة والأمن السيبراني يحمي البنية التحتية الحيوية من المخاطر التقنية." },
+            maaden: { digital: 70, cash: 65, hedging: 35, advice: "لمعادن: تأمين احتياطيات المعادن الاستراتيجية وتطوير قدرات التعدين المستدام يدعم ركيزة التعدين في الرؤية." }
         };
 
-        const scenarios = {
-            cbam: {
-                title: "ضريبة الكربون في الاتحاد الأوروبي (CBAM)",
-                desc: "تأثير آليات تعديل حدود الكربون الجديدة في الاتحاد الأوروبي على صادرات الطاقة والصناعة.",
-                steps: [
-                    "الاستثمار المباشر في تقنيات الإنتاج منخفضة الكربون.",
-                    "التدقيق الاستراتيجي لملفات انبعاثات الموردين من المستوى الأول.",
-                    "تحسين كفاءة استهلاك الطاقة وتقليل الانبعاثات الكربونية"
-                ],
-                baseRisk: 75
-            },
-            supply: {
-                title: "إغلاق سلاسل التوريد العالمية",
-                desc: "فشل نظامي في ممرات التجارة الحيوية والعقد اللوجستية.",
-                steps: [
-                    "الانتقال إلى استراتيجية 'الصين+1' أو التوريد المحلي.",
-                    "تأمين سعة الشحن الجوي والموانئ الجافة ذات الأولوية بشكل استباقي.",
-                    "تأمين سلاسل الإمداد المحلية وتقليل الاعتماد على الاستيراد"
-                ],
-                baseRisk: 85
-            },
-            vision: {
-                title: "التحول التنظيمي لرؤية 2030",
-                desc: "التطور السريع لمتطلبات العمل في المملكة وتفويضات التحول الرقمي.",
-                steps: [
-                    "تنفيذ الأتمتة التشغيلية القائمة على الذكاء الاصطناعي لتحسين القوى العاملة.",
-                    "تنفيذ برامج توطين (سعودة) متخصصة للمواهب.",
-                    "تسريع التحول الرقمي بما يتماشى مع مستهدفات رؤية 2030"
-                ],
-                baseRisk: 50
-            }
-        };
+        const companySelector = document.getElementById('company-selector');
+        const hedgingSlider = document.getElementById('hedging-slider');
+        const digitalSlider = document.getElementById('digital-slider');
+        const cashSlider = document.getElementById('cash-slider');
 
-        function calculate() {
-            const scenarioKey = document.getElementById('scenario').value;
-            const digital = parseInt(document.getElementById('digital').value);
-            const cash = parseInt(document.getElementById('cash').value);
-            const hedging = document.getElementById('hedging').checked;
-            const suppliers = document.getElementById('suppliers').checked;
+        const hedgingVal = document.getElementById('hedging-val');
+        const digitalVal = document.getElementById('digital-val');
+        const cashVal = document.getElementById('cash-val');
 
-            document.getElementById('digital-val').innerText = digital;
-            document.getElementById('cash-val').innerText = cash + ' أشهر';
+        const readinessScore = document.getElementById('readiness-score');
+        const readinessStatus = document.getElementById('readiness-status');
+        const riskLevel = document.getElementById('risk-level');
+        const hedgingAlert = document.getElementById('hedging-alert');
+        const adviceText = document.getElementById('advice-text');
 
-            let score = (digital * 4);
-            score += Math.min(cash * 2, 20);
-            if (hedging) score += 20;
-            if (suppliers) score += 20;
+        function updateUI() {
+            const h = parseInt(hedgingSlider.value);
+            const d = parseInt(digitalSlider.value);
+            const c = parseInt(cashSlider.value);
 
-            const scenario = scenarios[scenarioKey];
-            let risk = scenario.baseRisk - (score * 0.45);
+            hedgingVal.innerText = `${h}%`;
+            digitalVal.innerText = `${d}%`;
+            cashVal.innerText = `${c}%`;
 
-            document.getElementById('readiness-score').innerText = score + '%';
-            const statusEl = document.getElementById('readiness-status');
+            // Logic: Readiness Score calculation
+            // Base score from digital and cash
+            let baseScore = (d * 0.4) + (c * 0.3);
+            // Hedging bonus: Each 1% of hedging adds 0.6% to readiness
+            let bonus = h * 0.6;
+            let totalScore = Math.min(100, Math.round(baseScore + bonus));
             
-            if(score < 40) {
-                statusEl.innerText = 'حرج (Critical)';
-                statusEl.className = 'px-3 py-1 rounded-full text-xs font-bold uppercase bg-red-100 text-red-600';
-            } else if(score < 75) {
-                statusEl.innerText = 'مستقر (Stable)';
-                statusEl.className = 'px-3 py-1 rounded-full text-xs font-bold uppercase bg-yellow-100 text-yellow-600';
+            readinessScore.innerText = `${totalScore}%`;
+
+            // Risk Level Logic: Inverse of readiness
+            let risk = 100 - totalScore;
+            
+            if (totalScore >= 80) {
+                readinessStatus.innerText = "صمود استراتيجي فائق";
+                readinessStatus.className = "text-[10px] font-bold text-green-500 uppercase";
+                riskLevel.innerText = "منخفض جداً";
+                riskLevel.className = "text-2xl font-black text-green-500";
+                updateRiskBars(1);
+            } else if (totalScore >= 60) {
+                readinessStatus.innerText = "جاهزية مستقرة";
+                readinessStatus.className = "text-[10px] font-bold text-blue-500 uppercase";
+                riskLevel.innerText = "منخفض";
+                riskLevel.className = "text-2xl font-black text-blue-400";
+                updateRiskBars(1);
+            } else if (totalScore >= 40) {
+                readinessStatus.innerText = "وضع يحتاج مراقبة";
+                readinessStatus.className = "text-[10px] font-bold text-yellow-500 uppercase";
+                riskLevel.innerText = "متوسط";
+                riskLevel.className = "text-2xl font-black text-yellow-500";
+                updateRiskBars(2);
             } else {
-                statusEl.innerText = 'صلب (Resilient)';
-                statusEl.className = 'px-3 py-1 rounded-full text-xs font-bold uppercase bg-green-100 text-green-600';
+                readinessStatus.innerText = "تعرض حاد للمخاطر";
+                readinessStatus.className = "text-[10px] font-bold text-red-500 uppercase";
+                riskLevel.innerText = "مرتفع جداً";
+                riskLevel.className = "text-2xl font-black text-red-500";
+                updateRiskBars(3);
             }
 
-            const riskLevelStr = risk > 65 ? 'مرتفع' : (risk > 35 ? 'متوسط' : 'منخفض');
-            const riskEl = document.getElementById('risk-level');
-            const iconEl = document.getElementById('risk-icon');
-            riskEl.innerText = riskLevelStr;
-            const riskColorClass = risk > 65 ? 'text-red-600' : (risk > 35 ? 'text-yellow-600' : 'text-green-600');
-            riskEl.className = `text-5xl font-bold ${riskColorClass}`;
-            iconEl.className = `fas fa-circle-exclamation text-3xl ${riskColorClass}`;
-
-            let html = `
-                <div class="text-right">
-                    <h3 class="text-2xl font-bold text-slate-800 mb-2">${scenario.title}</h3>
-                    <p class="text-slate-600 text-lg leading-relaxed">${scenario.desc}</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-right">
-                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
-                        <p class="text-xs font-bold text-blue-800 uppercase mb-2">وجهة نظر محلل التحوط</p>
-                        <p class="text-sm text-blue-700 leading-relaxed">بناءً على المعايير الحالية، فإن المنشأة ${score > 70 ? 'في وضع جيد لاستيعاب' : 'حساسة تجاه'} أحداث التقلب العالية. يجب إعطاء الأولوية لـ ${digital < 7 ? 'البنية التحتية الرقمية' : 'إدارة السيولة'}.</p>
-                    </div>
-                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                        <p class="text-xs font-bold text-slate-800 uppercase mb-2">سياق السوق السعودي</p>
-                        <p class="text-sm text-slate-600 leading-relaxed">التوافق مع متطلبات المحتوى المحلي هو ${suppliers ? 'مرضٍ' : 'مطلوب'}. تظل مخاطر التوريد العالمية هي ناقل المخاطر الرئيسي.</p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <h4 class="font-bold text-slate-700 mb-4 flex items-center justify-end">
-                        خطوات المرونة التكتيكية <i class="fas fa-list-check ml-2 text-blue-500"></i>
-                    </h4>
-                    <ul class="space-y-3">
-                        ${scenario.steps.map(step => `
-                            <li class="flex items-center bg-white p-4 rounded-xl border border-slate-100 shadow-sm justify-end">
-                                <span class="text-slate-700 font-medium mr-3">${step}</span>
-                                <i class="fas fa-check-circle text-blue-500"></i>
-                            </li>
-                        `).join('')}
-                    </ul>
-                </div>
-            `;
-            document.getElementById('scenario-content').innerHTML = html;
+            // Analyst Note for Hedging
+            if (h > 30) {
+                hedgingAlert.classList.remove('hidden');
+            } else {
+                hedgingAlert.classList.add('hidden');
+            }
         }
 
-        const searchInput = document.getElementById('company-search');
-        const searchResults = document.getElementById('search-results');
-
-        searchInput.addEventListener('input', (e) => {
-            const val = e.target.value.toLowerCase();
-            if (!val) { searchResults.classList.add('hidden'); return; }
+        function updateRiskBars(level) {
+            const b1 = document.getElementById('risk-bar-1');
+            const b2 = document.getElementById('risk-bar-2');
+            const b3 = document.getElementById('risk-bar-3');
             
-            const filtered = companies.filter(c => c.name.toLowerCase().includes(val) || c.ticker.includes(val));
-            if (filtered.length === 0) { searchResults.classList.add('hidden'); return; }
-
-            searchResults.innerHTML = filtered.map(c => `
-                <div class="px-4 py-3 hover:bg-slate-50 cursor-pointer border-b last:border-0 border-slate-100 flex justify-between items-center flex-row-reverse" 
-                    onclick="selectCompany('${c.ticker}')">
-                    <span class="font-semibold text-slate-700">${c.name}</span>
-                    <span class="text-xs bg-slate-100 text-slate-500 px-2 py-1 rounded">الرمز: ${c.ticker}</span>
-                </div>
-            `).join('');
-            searchResults.classList.remove('hidden');
-        });
-
-        function selectCompany(ticker) {
-            const company = companies.find(c => c.ticker === ticker);
-            document.getElementById('digital').value = company.digital;
-            document.getElementById('cash').value = company.cash;
-            document.getElementById('hedging').checked = company.hedging;
-            document.getElementById('suppliers').checked = company.suppliers;
-            document.getElementById('sector-selector').value = company.sector;
+            [b1, b2, b3].forEach(b => b.className = "h-1 w-4 bg-slate-700 rounded-full");
             
-            searchInput.value = company.name;
-            searchResults.classList.add('hidden');
-
-            const infoCard = document.getElementById('company-info-card');
-            document.getElementById('active-company-name').innerText = company.name;
-            document.getElementById('active-company-ticker').innerText = `الرمز: ${company.ticker}`;
-            document.getElementById('analyst-note').innerText = company.note;
-            infoCard.classList.remove('hidden');
-
-            calculate();
+            if (level === 1) {
+                b1.className = "h-1 w-4 bg-green-500 rounded-full";
+            } else if (level === 2) {
+                b1.className = "h-1 w-4 bg-yellow-500 rounded-full";
+                b2.className = "h-1 w-4 bg-yellow-500 rounded-full";
+            } else if (level === 3) {
+                b1.className = "h-1 w-4 bg-red-500 rounded-full";
+                b2.className = "h-1 w-4 bg-red-500 rounded-full";
+                b3.className = "h-1 w-4 bg-red-500 rounded-full";
+            }
         }
 
-        document.getElementById('sector-selector').addEventListener('change', (e) => {
-            const sector = e.target.value;
-            if (sector === 'custom') return;
-            
-            const defaults = sectorDefaults[sector];
-            document.getElementById('digital').value = defaults.digital;
-            document.getElementById('cash').value = defaults.cash;
-            document.getElementById('hedging').checked = defaults.hedging;
-            document.getElementById('suppliers').checked = defaults.suppliers;
-            
-            document.getElementById('company-search').value = "";
-            document.getElementById('company-info-card').classList.add('hidden');
-            calculate();
+        companySelector.addEventListener('change', (e) => {
+            const key = e.target.value;
+            if (companyData[key]) {
+                const data = companyData[key];
+                digitalSlider.value = data.digital;
+                cashSlider.value = data.cash;
+                hedgingSlider.value = data.hedging;
+                adviceText.innerText = data.advice;
+                updateUI();
+            }
         });
 
-        ['scenario', 'digital', 'cash', 'hedging', 'suppliers'].forEach(id => {
-            document.getElementById(id).addEventListener('input', calculate);
+        [hedgingSlider, digitalSlider, cashSlider].forEach(s => {
+            s.addEventListener('input', updateUI);
         });
 
-        calculate();
+        // Initial update
+        updateUI();
     </script>
 </body>
 </html>
