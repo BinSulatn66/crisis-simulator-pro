@@ -332,7 +332,7 @@
                             <option value="energy">قطاع الطاقة</option>
                         </select>
                     </div>
-                    <button onclick="injectAIAnalyticCrisis()" class="bg-saudi-gold hover:bg-yellow-500 text-slate-950 font-black py-5 px-10 rounded-2xl text-xs flex items-center justify-center gap-3">
+                    <button id="inject-crisis-btn" onclick="injectAIAnalyticCrisis()" class="bg-saudi-gold hover:bg-yellow-500 text-slate-950 font-black py-5 px-10 rounded-2xl text-xs flex items-center justify-center gap-3">
                         <i class="fas fa-radar text-lg"></i> تحليل التأثير التنبؤي الذكي
                     </button>
                 </div>
@@ -341,103 +341,140 @@
     </main>
 
     <script>
-        const entities = {
-            ministries: [{ id: "moe", name: "وزارة الطاقة", multiplier: 1.1 }, { id: "mof", name: "وزارة المالية", multiplier: 1.15 }],
-            sovereign: [{ id: "pif", name: "صندوق الاستثمارات العامة", multiplier: 1.4 }, { id: "sama", name: "البنك المركزي السعودي", multiplier: 1.35 }],
-            leading_corporates: [{ id: "aramco", name: "أرامكو السعودية", multiplier: 1.2 }, { id: "stc", name: "stc", multiplier: 1.2 }],
-            economic_sectors: [{ id: "fin_sector", name: "القطاع المالي", multiplier: 1.3 }, { id: "energy_sector", name: "قطاع الطاقة", multiplier: 1.3 }]
-        };
+        (function() {
+            var entities = {
+                ministries: [{ id: "moe", name: "وزارة الطاقة", multiplier: 1.1 }, { id: "mof", name: "وزارة المالية", multiplier: 1.15 }],
+                sovereign: [{ id: "pif", name: "صندوق الاستثمارات العامة", multiplier: 1.4 }, { id: "sama", name: "البنك المركزي السعودي", multiplier: 1.35 }],
+                leading_corporates: [{ id: "aramco", name: "أرامكو السعودية", multiplier: 1.2 }, { id: "stc", name: "stc", multiplier: 1.2 }],
+                economic_sectors: [{ id: "fin_sector", name: "القطاع المالي", multiplier: 1.3 }, { id: "energy_sector", name: "قطاع الطاقة", multiplier: 1.3 }]
+            };
 
-        const crisisMetadata = {
-            supply: { name: "انقطاع سلاسل الإمداد الدولية", risk: "HIGH" },
-            sanctions: { name: "حظر تكنولوجي / سيبراني موجه", risk: "CRITICAL" },
-            carbon: { name: "تفعيل مفاجئ لضرائب الكربون", risk: "MODERATE" },
-            liquidity: { name: "أزمة سيولة عالمية مفاجئة", risk: "HIGH" }
-        };
+            function getEl(id) { return document.getElementById(id); }
 
-        async function fetchLiveMarketData() {
-            try {
-                document.getElementById('ticker-brent').innerHTML = '<i class="fas fa-oil-well text-saudi-gold"></i> خام برنت: $84.20 <i class="fas fa-caret-up text-emerald-400"></i>';
-                document.getElementById('ticker-tasi').innerHTML = '<i class="fas fa-building-columns text-saudi-gold"></i> تداول (TASI): 12,450.10';
-                document.getElementById('ticker-gastat').innerHTML = '<i class="fas fa-chart-pie text-saudi-gold"></i> مؤشر الإنتاج: +2.1%';
-                document.getElementById('ticker-cyber').innerHTML = '<i class="fas fa-shield-virus text-saudi-gold"></i> التهديد السيبراني: 2.1/10';
-            } catch (e) {}
-        }
+            window.fetchLiveMarketData = function() {
+                try {
+                    if (getEl('ticker-brent')) getEl('ticker-brent').innerHTML = '<i class="fas fa-oil-well text-saudi-gold"></i> خام برنت: $84.20 <i class="fas fa-caret-up text-emerald-400"></i>';
+                    if (getEl('ticker-tasi')) getEl('ticker-tasi').innerHTML = '<i class="fas fa-building-columns text-saudi-gold"></i> تداول (TASI): 12,450.10';
+                    if (getEl('ticker-gastat')) getEl('ticker-gastat').innerHTML = '<i class="fas fa-chart-pie text-saudi-gold"></i> مؤشر الإنتاج: +2.1%';
+                    if (getEl('ticker-cyber')) getEl('ticker-cyber').innerHTML = '<i class="fas fa-shield-virus text-saudi-gold"></i> التهديد السيبراني: 2.1/10';
+                } catch (e) { console.error("Ticker update failed", e); }
+            };
 
-        function updateEntityList() {
-            const cat = document.getElementById('category-select').value;
-            const select = document.getElementById('entity-select');
-            select.innerHTML = "";
-            entities[cat].forEach(e => {
-                const opt = document.createElement('option');
-                opt.value = e.id; opt.innerText = e.name; opt.dataset.multiplier = e.multiplier;
-                select.appendChild(opt);
+            window.updateEntityList = function() {
+                try {
+                    var categorySelect = getEl('category-select');
+                    if (!categorySelect) return;
+                    var cat = categorySelect.value;
+                    var select = getEl('entity-select');
+                    if (!select) return;
+                    select.innerHTML = "";
+                    entities[cat].forEach(function(e) {
+                        var opt = document.createElement('option');
+                        opt.value = e.id; 
+                        opt.innerText = e.name; 
+                        opt.setAttribute('data-multiplier', e.multiplier);
+                        select.appendChild(opt);
+                    });
+                    window.updateUI();
+                } catch (e) { console.error("Entity list update failed", e); }
+            };
+
+            window.updateUI = function() {
+                try {
+                    var capexInput = getEl('capex-slider');
+                    if (!capexInput) return;
+                    var capex = parseInt(capexInput.value);
+                    if (getEl('capex-val')) getEl('capex-val').innerText = capex + '%';
+                    if (getEl('metric-cost')) getEl('metric-cost').innerText = 'تأثير متوقع (+12.4%) نتيجة تحول الموردين.';
+                    if (getEl('metric-speed')) getEl('metric-speed').innerText = 'تباطؤ مرصود (-8.2%) لضمان معايير الجودة.';
+                    if (getEl('metric-security')) getEl('metric-security').innerText = 'تحسن استراتيجي (+' + (capex * 0.4).toFixed(0) + '%) في استقلالية القرار.';
+                } catch (e) { console.error("UI update failed", e); }
+            };
+
+            window.executeStrategicAnalysis = function() {
+                try {
+                    var container = getEl('strategic-report-container');
+                    var content = getEl('report-content');
+                    if (!container || !content) return;
+                    container.classList.remove('hidden');
+                    content.innerHTML = '<div class="animate-pulse text-emerald-400 text-xs">جاري إنشاء التقرير...</div>';
+                    
+                    setTimeout(function() {
+                        var entitySelect = getEl('entity-select');
+                        var entity = (entitySelect && entitySelect.options[entitySelect.selectedIndex]) ? entitySelect.options[entitySelect.selectedIndex].text : "الجهة";
+                        var html = '';
+                        html += '<div class="report-section"><h4 class="text-saudi-gold font-black text-sm mb-4">1. تحليل مستشرف الأزمات الذكي (AI Predictive Insight)</h4><p class="text-slate-300 text-xs leading-relaxed">بناءً على النمذجة الرياضية لكيان ' + entity + '، تم رصد أزمة راكدة في "تكامل البيانات العابرة للحدود". الشرارة المتوقعة هي اضطراب في بروتوكولات التحقق العالمية. يتطلب ذلك عزل الأنظمة الحرجة فوراً.</p></div>';
+                        html += '<div class="report-section"><h4 class="text-saudi-gold font-black text-sm mb-4">2. مصفوفة التوقعات والتأثيرات (Multi-Tiered Forecast Matrix)</h4><div class="report-table-wrapper"><table class="report-table"><thead><tr><th>مستوى التأثير</th><th>المؤشر المستهدف</th><th>النسبة المتوقعة</th></tr></thead><tbody><tr><td>تأثير أولي (Primary)</td><td>التدفق النقدي السيادي</td><td>-14.2%</td></tr><tr><td>تأثير ثانوي (Secondary)</td><td>نمو القطاع التشغيلي</td><td>-8.5%</td></tr><tr><td>تأثير ثالثي (Tertiary)</td><td>مؤشر الجاهزية الوطنية</td><td>+22.0% (تحسن)</td></tr></tbody></table></div></div>';
+                        html += '<div class="report-section"><h4 class="text-saudi-gold font-black text-sm mb-4">3. استراتيجية التفادي الاستباقي (Preemptive Avoidance)</h4><p class="text-slate-300 text-xs leading-relaxed">استخدام "CapEx Hedging" لإعادة توزيع 30% من ميزانية التوسع نحو "الأصول المقاومة للتعطيل". نوصي بمعادلة RAROR لضمان عائد استثمار سيادي يفوق 12% سنوياً.</p></div>';
+                        html += '<div class="report-section"><h4 class="text-saudi-gold font-black text-sm mb-4">4. المواءمة مع رؤية 2030 (Sovereign Safeguards)</h4><p class="text-slate-300 text-xs leading-relaxed">هذه الاستراتيجية تتماشى مع "برنامج تطوير الصناعة الوطنية" لضمان استمرارية الأعمال في الظروف القصوى وتوطين 70% من المكونات الحرجة.</p></div>';
+                        content.innerHTML = html;
+                        container.scrollIntoView({ behavior: 'smooth' });
+                    }, 1500);
+                } catch (e) { console.error("Strategic analysis failed", e); }
+            };
+
+            window.injectAIAnalyticCrisis = function() {
+                try {
+                    var nameInput = getEl('custom-crisis-name');
+                    var name = nameInput ? nameInput.value : "";
+                    if (!name) { alert('برجاء إدخال التهديد'); return; }
+                    
+                    var overlay = document.createElement('div');
+                    overlay.id = "ai-overlay";
+                    overlay.className = "fixed inset-0 z-[100] bg-slate-950/95 flex flex-col items-center justify-center p-6";
+                    overlay.innerHTML = '<div class="w-full max-w-sm space-y-6"><div class="flex justify-between items-center mb-2"><span class="text-saudi-gold text-[10px] font-black uppercase">AI Predictive Processor</span><i class="fas fa-microchip text-saudi-gold animate-pulse"></i></div><div id="log-container" class="space-y-3 h-48 overflow-hidden text-[11px] font-medium text-slate-400 font-mono"></div><div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden"><div id="inject-progress" class="h-full bg-saudi-gold transition-all duration-300" style="width: 0%"></div></div></div>';
+                    document.body.appendChild(overlay);
+
+                    var logs = [
+                        "جاري تشغيل محاكاة مونت كارلو (10k Iterations)...",
+                        "تحليل الروابط المشتركة للقطاع السيادي...",
+                        "حساب مؤشر RAROR المطور للأصول الحرجة...",
+                        "استخراج استراتيجية التحوط الرأسمالي (CapEx Hedging)...",
+                        "مواءمة السيناريو مع مستهدفات رؤية 2030...",
+                        "اكتمال النمذجة. جاري توليد التقرير الاستراتيجي..."
+                    ];
+
+                    var logContainer = getEl('log-container');
+                    var currentLog = 0;
+
+                    function showNextLog() {
+                        if (currentLog < logs.length) {
+                            var entry = document.createElement('div');
+                            entry.className = "log-entry flex items-center gap-2";
+                            entry.innerHTML = '<i class="fas fa-check-circle text-emerald-500 text-[8px]"></i> <span>' + logs[currentLog] + '</span>';
+                            if (logContainer) logContainer.appendChild(entry);
+                            if (getEl('inject-progress')) getEl('inject-progress').style.width = ((currentLog + 1) / logs.length * 100) + '%';
+                            currentLog++;
+                            setTimeout(showNextLog, 800);
+                        } else {
+                            setTimeout(function() {
+                                if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+                                var select = getEl('crisis-select');
+                                if (select) {
+                                    var opt = document.createElement('option');
+                                    opt.value = 'custom_' + Date.now(); 
+                                    opt.innerText = name + ' (AI Analysed)';
+                                    select.appendChild(opt); 
+                                    select.value = opt.value;
+                                }
+                                window.updateUI();
+                                window.executeStrategicAnalysis();
+                            }, 500);
+                        }
+                    }
+                    showNextLog();
+                } catch (e) { console.error("Crisis injection failed", e); }
+            };
+
+            // Initialize
+            document.addEventListener('DOMContentLoaded', function() {
+                var slider = getEl('capex-slider');
+                if (slider) slider.addEventListener('input', window.updateUI);
+                window.updateEntityList();
+                window.fetchLiveMarketData();
+                setInterval(window.fetchLiveMarketData, 30000);
             });
-            updateUI();
-        }
-
-        function updateUI() {
-            const capex = parseInt(document.getElementById('capex-slider').value);
-            document.getElementById('capex-val').innerText = capex + '%';
-            document.getElementById('metric-cost').innerText = 'تأثير متوقع (+12.4%) نتيجة تحول الموردين.';
-            document.getElementById('metric-speed').innerText = 'تباطؤ مرصود (-8.2%) لضمان معايير الجودة.';
-            document.getElementById('metric-security').innerText = 'تحسن استراتيجي (+' + (capex * 0.4).toFixed(0) + '%) في استقلالية القرار.';
-        }
-
-        async function executeStrategicAnalysis() {
-            const container = document.getElementById('strategic-report-container');
-            const content = document.getElementById('report-content');
-            container.classList.remove('hidden');
-            content.innerHTML = '<div class="animate-pulse text-emerald-400 text-xs">جاري إنشاء التقرير...</div>';
-            await new Promise(r => setTimeout(r, 1500));
-            
-            const entitySelect = document.getElementById('entity-select');
-            const entity = entitySelect.options[entitySelect.selectedIndex] ? entitySelect.options[entitySelect.selectedIndex].text : "الجهة";
-            content.innerHTML = '<div class="report-section"><h4 class="text-saudi-gold font-black text-sm mb-4">1. تحليل مستشرف الأزمات الذكي (AI Predictive Insight)</h4><p class="text-slate-300 text-xs leading-relaxed">بناءً على النمذجة الرياضية لكيان ' + entity + '، تم رصد أزمة راكدة في "تكامل البيانات العابرة للحدود". الشرارة المتوقعة هي اضطراب في بروتوكولات التحقق العالمية. يتطلب ذلك عزل الأنظمة الحرجة فوراً.</p></div><div class="report-section"><h4 class="text-saudi-gold font-black text-sm mb-4">2. مصفوفة التوقعات والتأثيرات (Multi-Tiered Forecast Matrix)</h4><div class="report-table-wrapper"><table class="report-table"><thead><tr><th>مستوى التأثير</th><th>المؤشر المستهدف</th><th>النسبة المتوقعة</th></tr></thead><tbody><tr><td>تأثير أولي (Primary)</td><td>التدفق النقدي السيادي</td><td>-14.2%</td></tr><tr><td>تأثير ثانوي (Secondary)</td><td>نمو القطاع التشغيلي</td><td>-8.5%</td></tr><tr><td>تأثير ثالثي (Tertiary)</td><td>مؤشر الجاهزية الوطنية</td><td>+22.0% (تحسن)</td></tr></tbody></table></div></div><div class="report-section"><h4 class="text-saudi-gold font-black text-sm mb-4">3. استراتيجية التفادي الاستباقي (Preemptive Avoidance)</h4><p class="text-slate-300 text-xs leading-relaxed">استخدام "CapEx Hedging" لإعادة توزيع 30% من ميزانية التوسع نحو "الأصول المقاومة للتعطيل". نوصي بمعادلة RAROR لضمان عائد استثمار سيادي يفوق 12% سنوياً.</p></div><div class="report-section"><h4 class="text-saudi-gold font-black text-sm mb-4">4. المواءمة مع رؤية 2030 (Sovereign Safeguards)</h4><p class="text-slate-300 text-xs leading-relaxed">هذه الاستراتيجية تتماشى مع "برنامج تطوير الصناعة الوطنية" لضمان استمرارية الأعمال في الظروف القصوى وتوطين 70% من المكونات الحرجة.</p></div>';
-        }
-
-        async function injectAIAnalyticCrisis() {
-            const name = document.getElementById('custom-crisis-name').value;
-            if (!name) { alert('برجاء إدخال التهديد'); return; }
-            
-            const overlay = document.createElement('div');
-            overlay.className = "fixed inset-0 z-[100] bg-slate-950/95 flex flex-col items-center justify-center p-6";
-            overlay.innerHTML = '<div class="w-full max-w-sm space-y-6"><div class="flex justify-between items-center mb-2"><span class="text-saudi-gold text-[10px] font-black uppercase">AI Predictive Processor</span><i class="fas fa-microchip text-saudi-gold animate-pulse"></i></div><div id="log-container" class="space-y-3 h-48 overflow-hidden text-[11px] font-medium text-slate-400 font-mono"></div><div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden"><div id="inject-progress" class="h-full bg-saudi-gold transition-all duration-300" style="width: 0%"></div></div></div>';
-            document.body.appendChild(overlay);
-
-            const logs = [
-                "جاري تشغيل محاكاة مونت كارلو (10k Iterations)...",
-                "تحليل الروابط المشتركة للقطاع السيادي...",
-                "حساب مؤشر RAROR المطور للأصول الحرجة...",
-                "استخراج استراتيجية التحوط الرألي (CapEx Hedging)...",
-                "مواءمة السيناريو مع مستهدفات رؤية 2030...",
-                "اكتمال النمذجة. جاري توليد التقرير الاستراتيجي..."
-            ];
-
-            const logContainer = document.getElementById('log-container');
-            for(let i=0; i<logs.length; i++) {
-                const entry = document.createElement('div');
-                entry.className = "log-entry flex items-center gap-2";
-                entry.innerHTML = '<i class="fas fa-check-circle text-emerald-500 text-[8px]"></i> <span>' + logs[i] + '</span>';
-                logContainer.appendChild(entry);
-                document.getElementById('inject-progress').style.width = ((i+1)/logs.length*100) + '%';
-                await new Promise(function(r) { setTimeout(r, 800); });
-            }
-
-            setTimeout(function() {
-                document.body.removeChild(overlay);
-                const select = document.getElementById('crisis-select');
-                const opt = document.createElement('option');
-                opt.value = 'custom'; opt.innerText = name + ' (AI Analysed)';
-                select.appendChild(opt); select.value = 'custom';
-                updateUI();
-                executeStrategicAnalysis();
-            }, 500);
-        }
-
-        document.getElementById('capex-slider').addEventListener('input', updateUI);
-        updateEntityList();
-        fetchLiveMarketData();
+        })();
     </script>
 </body>
 </html>
