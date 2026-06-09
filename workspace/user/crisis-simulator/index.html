@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستشار الصمود الاستراتيجي | Pro Strategic Resilience Advisor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;600;700&display=swap');
+        :root { --executive-green: #064e3b; --saudi-emerald: #10b981; --charcoal-bg: #0f172a; }
+        body { font-family: 'Noto Sans Arabic', sans-serif; background-color: var(--charcoal-bg); color: #f8fafc; scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; }
+        .glass-card:hover { border-color: rgba(16, 185, 129, 0.3); }
+        .slider-thumb::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; background: #10b981; cursor: pointer; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 15px rgba(16, 185, 129, 0.5); }
+        input[type="range"] { -webkit-appearance: none; background: #1e293b; height: 8px; border-radius: 5px; }
+        .pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .animate-marquee { display: inline-block; white-space: nowrap; animation: marquee 30s linear infinite; }
+        @media print { .no-print { display: none !important; } body { background: white !important; color: black !important; } .glass-card { border: 1px solid #ccc !important; backdrop-filter: none !important; background: white !important; color: black !important; } .text-white, .text-slate-300, .text-emerald-400 { color: black !important; } }
+    </style>
+</head>
+<body class="min-h-screen pb-20 overflow-x-hidden">
+
+    <!-- Live Status Ticker -->
+    <div class="bg-emerald-950/80 border-b border-emerald-500/20 py-2 no-print overflow-hidden relative h-10">
+        <div class="animate-marquee absolute flex items-center gap-12 text-[10px] font-bold text-emerald-400">
+            <span class="flex items-center gap-2"><i class="fas fa-circle text-[6px] pulse"></i> حالة الملاحة: مضيق هرمز - نشط (42 ناقلة)</span>
+            <span class="flex items-center gap-2"><i class="fas fa-circle text-[6px] pulse text-yellow-500"></i> البحر الأحمر: حذر لوجستي</span>
+            <span class="flex items-center gap-2"><i class="fas fa-ship"></i> أرامكو "سهم": 32.45 <i class="fas fa-caret-up"></i></span>
+            <span class="flex items-center gap-2"><i class="fas fa-microchip"></i> مؤشر الوصول التقني: 88%</span>
+            <span class="flex items-center gap-2"><i class="fas fa-circle text-[6px] pulse"></i> حالة الملاحة: مضيق هرمز - نشط (42 ناقلة)</span>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="border-b border-emerald-900/50 bg-slate-900/95 backdrop-blur-md sticky top-0 z-50 px-4 py-3 no-print">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <i class="fas fa-shield-halved text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-white leading-tight">مركز الصمود الاستراتيجي</h1>
+                    <p class="text-[9px] text-emerald-400 uppercase tracking-widest font-black">Executive War Room v4.0</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-2">
+                    <i class="fas fa-file-pdf"></i> <span class="hidden sm:inline">تقرير تنفيذي</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 mt-8 space-y-12">
+        
+        <!-- Live Intelligence Header -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 no-print">
+            <div class="glass-card p-4 rounded-2xl flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                    <i class="fas fa-bolt pulse"></i>
+                </div>
+                <div>
+                    <p class="text-[9px] text-slate-400 font-bold uppercase">الحالة الجيوسياسية</p>
+                    <p class="text-sm font-bold text-white">مستقر مع حذر</p>
+                </div>
+            </div>
+            <div class="glass-card p-4 rounded-2xl flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500">
+                    <i class="fas fa-anchor"></i>
+                </div>
+                <div>
+                    <p class="text-[9px] text-slate-400 font-bold uppercase">سفن في هرمز</p>
+                    <p id="ship-count-hormuz" class="text-sm font-bold text-white">42 ناقلة</p>
+                </div>
+            </div>
+            <div class="glass-card p-4 rounded-2xl flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center text-red-500">
+                    <i class="fas fa-gas-pump"></i>
+                </div>
+                <div>
+                    <p class="text-[9px] text-slate-400 font-bold uppercase">سعر برنت</p>
+                    <p class="text-sm font-bold text-white">$84.20 <span class="text-[10px] text-red-500">+1.2%</span></p>
+                </div>
+            </div>
+            <div class="glass-card p-4 rounded-2xl flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-500">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <div>
+                    <p class="text-[9px] text-slate-400 font-bold uppercase">مؤشر التوطين</p>
+                    <p class="text-sm font-bold text-white">68.4%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Crisis Builder Panel -->
+        <div class="glass-card p-6 rounded-3xl border-r-4 border-yellow-500 no-print">
+            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                <i class="fas fa-hammer text-yellow-500"></i> منشئ الأزمات المخصص
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                <div>
+                    <label class="block text-[10px] text-slate-400 font-bold mb-2 uppercase">اسم الأزمة</label>
+                    <input id="custom-crisis-name" type="text" placeholder="مثلاً: انقطاع كابلات بحرية" class="w-full bg-slate-800 border-none rounded-xl p-3 text-sm text-white focus:ring-2 focus:ring-yellow-500">
+                </div>
+                <div>
+                    <label class="block text-[10px] text-slate-400 font-bold mb-2 uppercase">القطاع المتأثر</label>
+                    <select id="custom-crisis-sector" class="w-full bg-slate-800 border-none rounded-xl p-3 text-sm text-white focus:ring-2 focus:ring-yellow-500">
+                        <option value="tech">التقنية والاتصالات</option>
+                        <option value="logistics">الخدمات اللوجستية</option>
+                        <option value="energy">الطاقة</option>
+                        <option value="finance">المالي</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] text-slate-400 font-bold mb-2 uppercase">مستوى التهديد الأولي</label>
+                    <input id="custom-crisis-threat" type="number" value="70" class="w-full bg-slate-800 border-none rounded-xl p-3 text-sm text-white focus:ring-2 focus:ring-yellow-500">
+                </div>
+                <button onclick="injectCustomCrisis()" class="bg-yellow-600 hover:bg-yellow-500 text-slate-900 font-bold py-3 px-6 rounded-xl text-sm transition-all transform active:scale-95">
+                    حقن الأزمة في المحاكي
+                </button>
+            </div>
+        </div>
+
+        <!-- Section 1: Corporate Simulator & Financials -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Sidebar: Controls -->
+            <div class="lg:col-span-4 space-y-6">
+                <div class="glass-card p-6 rounded-3xl border-t-4 border-emerald-500">
+                    <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <i class="fas fa-sliders text-emerald-500"></i> التحكم الاستراتيجي
+                    </h2>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-emerald-400 text-[10px] font-bold mb-2 uppercase tracking-widest">الشركة والقطاع</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <select id="company-selector" class="bg-slate-800 border-none text-white rounded-xl p-3 text-xs focus:ring-2 focus:ring-emerald-500">
+                                    <option value="none">اختر شركة...</option>
+                                    <option value="aramco">أرامكو</option>
+                                    <option value="sabic">سابك</option>
+                                    <option value="stc">إس تي سي</option>
+                                    <option value="alrajhi">الراجحي</option>
+                                </select>
+                                <select id="sector-selector" class="bg-slate-800 border-none text-white rounded-xl p-3 text-xs focus:ring-2 focus:ring-emerald-500">
+                                    <option value="energy">الطاقة</option>
+                                    <option value="tech">التقنية</option>
+                                    <option value="logistics">اللوجستيات</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-emerald-400 text-[10px] font-bold mb-2 uppercase tracking-widest">سيناريو الأزمة</label>
+                            <select id="crisis-selector" class="w-full bg-slate-800 border-none text-white rounded-xl p-3 text-xs focus:ring-2 focus:ring-emerald-500">
+                                <option value="tech_ban">حظر تكنولوجي دولي</option>
+                                <option value="supply_war">حروب مضايق واضطراب إمداد</option>
+                                <option value="carbon_tax">ضرائب كربونية مفاجئة</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-xs font-bold text-slate-300">نسبة التحوط (CapEx)</span>
+                                <span id="capex-display" class="text-xl font-black text-emerald-400">0%</span>
+                            </div>
+                            <input type="range" id="capex-slider" min="0" max="50" value="0" class="w-full slider-thumb">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- War Room Multi-Session Simulator -->
+                <div class="glass-card p-6 rounded-3xl border-r-4 border-blue-500 no-print overflow-hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fas fa-users-gear text-blue-500"></i> غرفة العمليات (CEO/CFO)
+                        </h2>
+                        <button id="launch-war-room" onclick="launchWarRoom()" class="text-[9px] bg-blue-600 px-2 py-1 rounded text-white font-bold">إطلاق الجلسة</button>
+                    </div>
+                    <div id="war-room-log" class="space-y-3 h-48 overflow-y-auto pr-2 text-[10px]">
+                        <p class="text-slate-500 italic">في انتظار إطلاق الجلسة...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financials & Intelligence -->
+            <div class="lg:col-span-8 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="glass-card p-6 rounded-3xl text-center">
+                        <p class="text-[9px] text-slate-400 mb-2 font-bold uppercase tracking-widest">العائد التعويضي</p>
+                        <h3 id="hedging-return" class="text-3xl font-black text-white">0%</h3>
+                    </div>
+                    <div class="glass-card p-6 rounded-3xl text-center">
+                        <p class="text-[9px] text-slate-400 mb-2 font-bold uppercase tracking-widest">التدفق النقدي</p>
+                        <h3 id="net-cashflow" class="text-3xl font-black text-red-500">سالب</h3>
+                    </div>
+                    <div class="glass-card p-6 rounded-3xl text-center">
+                        <p class="text-[9px] text-slate-400 mb-2 font-bold uppercase tracking-widest">درجة الصمود</p>
+                        <h3 id="resilience-score" class="text-3xl font-black text-red-500">متدني</h3>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-3xl">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-white">تحليل توافق الرؤية 2030</h3>
+                        <select id="vision-program-selector" class="bg-slate-800 border-none text-white rounded-lg p-2 text-xs">
+                            <option value="nidlp">برنامج ندلب (NIDLP)</option>
+                            <option value="pif">صندوق الاستثمارات العامة</option>
+                            <option value="ntp">التحول الوطني</option>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-[10px] font-black text-red-400 uppercase mb-4 tracking-tighter">العقبات المرصودة</h4>
+                            <div id="vision-obstacles" class="space-y-3"></div>
+                        </div>
+                        <div>
+                            <h4 class="text-[10px] font-black text-emerald-400 uppercase mb-4 tracking-tighter">خطة التجاوز</h4>
+                            <div id="vision-mitigation" class="space-y-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Data Structures
+        const strategyMap = {
+            tech_ban: { title: "حظر تكنولوجي دولي", threats: ["تعطل الأنظمة السيادية", "فقدان البيانات السحابية"], plans: ["توطين مراكز البيانات", "أنظمة تشغيل وطنية"] },
+            supply_war: { title: "حروب مضايق", threats: ["توقف التصدير البحري", "نقص قطع الغيار"], plans: ["تفعيل الجسر البري", "التصنيع الفوري محلياً"] },
+            carbon_tax: { title: "ضرائب كربونية", threats: ["تراجع تنافسية الصادرات", "تكاليف انبعاثات عالية"], plans: ["الهيدروجين الأخضر", "احتجاز الكربون"] }
+        };
+
+        const warRoomMembers = ["CEO", "CFO", "COO", "CRO (Chief Risk Officer)"];
+        const warRoomActions = [
+            "يراجع خطة الطوارئ...", "يوافق على تحويل ميزانية الـ CapEx", "يطلب تقرير السيولة الفوري", 
+            "يتواصل مع وزارة الطاقة", "يفعل بروتوكول الأمن السيبراني", "يصدر توجيهاً بالاعتماد على المورد المحلي"
+        ];
+
+        // Functions
+        function updateUI() {
+            const capex = parseInt(document.getElementById('capex-slider').value);
+            const crisisId = document.getElementById('crisis-selector').value;
+            const crisis = strategyMap[crisisId] || strategyMap.tech_ban;
+
+            document.getElementById('capex-display').innerText = capex + '%';
+            document.getElementById('hedging-return').innerText = (capex * 1.8).toFixed(1) + '%';
+            
+            const cashflow = capex > 25 ? 'إيجابي' : (capex > 15 ? 'متوازن' : 'سالب');
+            const resScore = capex > 35 ? 'ممتاز' : (capex > 20 ? 'متوسط' : 'متدني');
+            
+            const cashEl = document.getElementById('net-cashflow');
+            cashEl.innerText = cashflow;
+            cashEl.className = `text-3xl font-black ${capex > 20 ? 'text-emerald-400' : 'text-red-500'}`;
+
+            const resEl = document.getElementById('resilience-score');
+            resEl.innerText = resScore;
+            resEl.className = `text-3xl font-black ${capex > 30 ? 'text-emerald-400' : 'text-red-500'}`;
+
+            document.getElementById('vision-obstacles').innerHTML = crisis.threats.map(t => `<div class='bg-red-950/20 p-3 rounded-xl border border-red-500/10 text-[10px] text-red-200'>- ${t}</div>`).join('');
+            document.getElementById('vision-mitigation').innerHTML = crisis.plans.map(p => `<div class='bg-emerald-950/20 p-3 rounded-xl border border-emerald-500/10 text-[10px] text-emerald-200'>- ${p}</div>`).join('');
+        }
+
+        function launchWarRoom() {
+            const log = document.getElementById('war-room-log');
+            log.innerHTML = `<p class='text-blue-400 font-bold'>--- بدأت الجلسة الاستراتيجية ---</p>`;
+            let step = 0;
+            const interval = setInterval(() => {
+                const member = warRoomMembers[Math.floor(Math.random() * warRoomMembers.length)];
+                const action = warRoomActions[Math.floor(Math.random() * warRoomActions.length)];
+                const time = new Date().toLocaleTimeString('ar-SA');
+                log.innerHTML = `<div class='mb-2 border-b border-white/5 pb-1'><span class='text-slate-500'>[${time}]</span> <span class='text-blue-400 font-bold'>${member}:</span> ${action}</div>` + log.innerHTML;
+                step++;
+                if (step > 15) clearInterval(interval);
+            }, 2000);
+        }
+
+        function injectCustomCrisis() {
+            const name = document.getElementById('custom-crisis-name').value;
+            const sector = document.getElementById('custom-crisis-sector').value;
+            const threatVal = document.getElementById('custom-crisis-threat').value;
+            if (!name) return alert('برجاء ادخال اسم الأزمة');
+            
+            const selector = document.getElementById('crisis-selector');
+            const newId = 'custom_' + Date.now();
+            strategyMap[newId] = { title: name, threats: [`تهديد لقطاع ${sector}`, "خطر انقطاع العمليات"], plans: ["تفعيل خطة الاستمرارية المخصصة", "التواصل مع الجهات التنظيمية"] };
+            
+            const opt = document.createElement('option');
+            opt.value = newId;
+            opt.innerText = name + ' (مخصص)';
+            selector.appendChild(opt);
+            selector.value = newId;
+            updateUI();
+            alert('تم حقن الأزمة المخصصة بنجاح!');
+        }
+
+        // Ticker Logic
+        setInterval(() => {
+            const count = 35 + Math.floor(Math.random() * 15);
+            const el = document.getElementById('ship-count-hormuz');
+            if(el) el.innerText = count + ' ناقلة';
+        }, 5000);
+
+        ['capex-slider', 'crisis-selector', 'vision-program-selector'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateUI);
+        });
+
+        updateUI();
+    </script>
+</body>
+</html>
