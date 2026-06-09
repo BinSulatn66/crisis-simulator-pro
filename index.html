@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>محاكي الأزمات المطور | Executive Command Center v6.0</title>
+    <title>محاكي الأزمات المطور | Executive Command Center v6.1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -122,7 +122,7 @@
                     </div>
                     <div>
                         <h1 class="text-xl font-black text-white tracking-tight">مركز القيادة الاستراتيجي</h1>
-                        <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Executive Command Center v6.0</p>
+                        <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Executive Command Center v6.1</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
@@ -139,7 +139,7 @@
         <!-- 2. Section 1: Corporate Simulator & AI Advisor -->
         <section id="corporate-simulator" class="space-y-6">
             <div class="flex items-center gap-3 border-r-4 border-emerald-500 pr-4">
-                <h2 class="text-2xl font-black text-white">محاكاة الشركات والمستشار الذكي</h2>
+                <h2 class="text-2xl font-black text-white">محاكاة الجهات والمستشار الذكي</h2>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -152,15 +152,18 @@
                         
                         <div class="space-y-6">
                             <div>
-                                <label class="block text-[10px] text-slate-400 font-bold mb-2 uppercase">المنشأة المستهدفة</label>
-                                <select id="company-select" class="w-full bg-slate-800 border-none text-white rounded-xl p-3 text-sm focus:ring-2 focus:ring-emerald-500">
-                                    <option value="aramco">أرامكو السعودية</option>
-                                    <option value="sabic">سابك</option>
-                                    <option value="alrajhi">مصرف الراجحي</option>
-                                    <option value="stc">إس تي سي (stc)</option>
-                                    <option value="maaden">معادن</option>
-                                    <option value="pif">صندوق الاستثمارات العامة (PIF)</option>
+                                <label class="block text-[10px] text-slate-400 font-bold mb-2 uppercase">تصنيف الجهة</label>
+                                <select id="entity-category" class="w-full bg-slate-800 border-none text-white rounded-xl p-3 text-sm focus:ring-2 focus:ring-emerald-500">
+                                    <option value="ministry">وزارات</option>
+                                    <option value="sovereign">هيئات سيادية/حكومية</option>
+                                    <option value="corporate">شركات وطنية</option>
+                                    <option value="custom">جهة مخصصة</option>
                                 </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] text-slate-400 font-bold mb-2 uppercase">اسم الجهة</label>
+                                <input type="text" id="entity-name" placeholder="أدخل اسم الجهة..." class="w-full bg-slate-800 border-none text-white rounded-xl p-3 text-sm focus:ring-2 focus:ring-emerald-500">
                             </div>
 
                             <div>
@@ -175,7 +178,7 @@
 
                             <div>
                                 <div class="flex justify-between items-center mb-4">
-                                    <span class="text-[10px] text-slate-400 font-bold uppercase">نسبة التحوط الاستثماري (CapEx)</span>
+                                    <span class="text-[10px] text-slate-400 font-bold uppercase">نسبة التحوط الاستراتيجي (Strategic Hedging)</span>
                                     <span id="capex-val" class="text-lg font-black text-emerald-400">10%</span>
                                 </div>
                                 <input type="range" id="capex-slider" min="0" max="100" value="10" class="custom-slider">
@@ -214,7 +217,7 @@
             </div>
         </section>
 
-        <!-- 3. NEW SECTION: حقيبة أدوات التحليل الاستشاري المتقدم (Advanced Advisory Analytics Suite) -->
+        <!-- 3. Advanced Advisory Analytics Suite -->
         <section id="advanced-analytics" class="space-y-8">
             <div class="flex items-center gap-3 border-r-4 border-emerald-500 pr-4">
                 <h2 class="text-2xl font-black text-white">حقيبة أدوات التحليل الاستشاري المتقدم</h2>
@@ -230,7 +233,7 @@
                     <div class="space-y-8">
                         <div>
                             <div class="flex justify-between text-[10px] font-bold mb-2">
-                                <span class="text-slate-400">تكلفة الصمود الرأسمالي</span>
+                                <span class="text-slate-400">تكلفة الصمود التشغيلي</span>
                                 <span id="meter-cost-val" class="text-white">متوسط</span>
                             </div>
                             <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
@@ -239,7 +242,7 @@
                         </div>
                         <div>
                             <div class="flex justify-between text-[10px] font-bold mb-2">
-                                <span class="text-slate-400">حماية السيولة النقدية</span>
+                                <span class="text-slate-400">مرونة الميزانية</span>
                                 <span id="meter-liquidity-val" class="text-white">منخفض</span>
                             </div>
                             <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
@@ -248,7 +251,7 @@
                         </div>
                         <div>
                             <div class="flex justify-between text-[10px] font-bold mb-2">
-                                <span class="text-slate-400">فرص النمو الضائعة</span>
+                                <span class="text-slate-400">التأثير على الأداء الوطني</span>
                                 <span id="meter-growth-val" class="text-white">مرتفع</span>
                             </div>
                             <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
@@ -257,7 +260,7 @@
                         </div>
                         <div>
                             <div class="flex justify-between text-[10px] font-bold mb-2">
-                                <span class="text-slate-400">العائد على الاستثمار (ROI)</span>
+                                <span class="text-slate-400">العائد الاستراتيجي</span>
                                 <span id="meter-roi-val" class="text-white">مستقر</span>
                             </div>
                             <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
@@ -275,18 +278,18 @@
                     <div class="relative pr-6 border-r border-emerald-500/30 space-y-8">
                         <div class="relative">
                             <div class="absolute -right-[31px] top-0 w-4 h-4 bg-red-500 rounded-full border-4 border-slate-900 shadow-lg shadow-red-500/20"></div>
-                            <h4 class="text-[11px] font-black text-red-400 mb-1">المرحلة الأولى: حماية فورية (1-30 يوم)</h4>
-                            <p id="roadmap-p1" class="text-[10px] text-slate-300 leading-relaxed">تأمين المخزون الاستراتيجي وعزل أنظمة التحكم.</p>
+                            <h4 class="text-[11px] font-black text-red-400 mb-1">المرحلة الأولى: استجابة فورية (1-30 يوم)</h4>
+                            <p id="roadmap-p1" class="text-[10px] text-slate-300 leading-relaxed">تأمين العمليات الحرجة وعزل أنظمة التحكم.</p>
                         </div>
                         <div class="relative">
                             <div class="absolute -right-[31px] top-0 w-4 h-4 bg-yellow-500 rounded-full border-4 border-slate-900 shadow-lg shadow-yellow-500/20"></div>
-                            <h4 class="text-[11px] font-black text-yellow-400 mb-1">المرحلة الثانية: مرونة تكتيكية (2-6 أشهر)</h4>
-                            <p id="roadmap-p2" class="text-[10px] text-slate-300 leading-relaxed">إعادة توجيه الإنفاق الرأسمالي نحو الموردين المحليين.</p>
+                            <h4 class="text-[11px] font-black text-yellow-400 mb-1">المرحلة الثانية: استدامة تكتيكية (2-6 أشهر)</h4>
+                            <p id="roadmap-p2" class="text-[10px] text-slate-300 leading-relaxed">إعادة تخصيص الموارد نحو الأولويات الوطنية.</p>
                         </div>
                         <div class="relative">
                             <div class="absolute -right-[31px] top-0 w-4 h-4 bg-emerald-500 rounded-full border-4 border-slate-900 shadow-lg shadow-emerald-500/20"></div>
-                            <h4 class="text-[11px] font-black text-emerald-400 mb-1">المرحلة الثالثة: تموضع سيادي (6-12 شهر)</h4>
-                            <p id="roadmap-p3" class="text-[10px] text-slate-300 leading-relaxed">بناء شراكات استراتيجية لضمان استقلالية التوريد والتقنية.</p>
+                            <h4 class="text-[11px] font-black text-emerald-400 mb-1">المرحلة الثالثة: تموضع استراتيجي (6-12 شهر)</h4>
+                            <p id="roadmap-p3" class="text-[10px] text-slate-300 leading-relaxed">بناء شراكات لضمان الاستقلالية التشغيلية والتقنية.</p>
                         </div>
                     </div>
                 </div>
@@ -305,20 +308,20 @@
                                 </div>
                                 <span id="gap-op-val" class="text-[10px] font-black text-white">+12%</span>
                             </div>
-                            <p class="text-[8px] text-slate-500 mt-1 uppercase tracking-widest">مقارنة بالمعيار العالمي</p>
+                            <p class="text-[8px] text-slate-500 mt-1 uppercase tracking-widest">مقارنة بالمعيار القطاعي</p>
                         </div>
                         <div>
-                            <p class="text-[10px] font-bold text-slate-400 mb-3 uppercase">الفجوة اللوجستية (Logistics Gap)</p>
+                            <p class="text-[10px] font-bold text-slate-400 mb-3 uppercase">فجوة الموارد (Resource Gap)</p>
                             <div class="flex items-center gap-3">
                                 <div class="flex-grow h-1.5 bg-slate-800 rounded-full overflow-hidden">
                                     <div id="gap-log-fill" class="h-full bg-red-500" style="width: 40%"></div>
                                 </div>
                                 <span id="gap-log-val" class="text-[10px] font-black text-white">-18%</span>
                             </div>
-                            <p class="text-[8px] text-slate-500 mt-1 uppercase tracking-widest">مقارنة بالمعدل الإقليمي</p>
+                            <p class="text-[8px] text-slate-500 mt-1 uppercase tracking-widest">مقارنة بمعدل الجهات المماثلة</p>
                         </div>
                         <div>
-                            <p class="text-[10px] font-bold text-slate-400 mb-3 uppercase">الفجوة المالية (Financial Gap)</p>
+                            <p class="text-[10px] font-bold text-slate-400 mb-3 uppercase">الفجوة الاستراتيجية (Strategic Gap)</p>
                             <div class="flex items-center gap-3">
                                 <div class="flex-grow h-1.5 bg-slate-800 rounded-full overflow-hidden">
                                     <div id="gap-fin-fill" class="h-full bg-yellow-500" style="width: 60%"></div>
@@ -335,20 +338,15 @@
         <!-- 4. Section 2: Vision 2030 Simulator -->
         <section id="vision-simulator" class="space-y-6">
             <div class="flex items-center gap-3 border-r-4 border-emerald-500 pr-4">
-                <h2 class="text-2xl font-black text-white">محاكاة برامج رؤية المملكة 2030</h2>
+                <h2 class="text-2xl font-black text-white">محاكاة برامج رؤية المملكة 2030 للجهة</h2>
             </div>
 
             <div class="glass-card p-8 rounded-3xl">
                 <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
                     <div class="w-full md:w-1/2">
-                        <label class="block text-[10px] text-slate-400 font-bold mb-3 uppercase">البرنامج التنفيذي المستهدف</label>
+                        <label class="block text-[10px] text-slate-400 font-bold mb-3 uppercase">البرنامج التنفيذي المرتبط</label>
                         <select id="vision-select" class="w-full bg-slate-900 border border-white/10 text-white rounded-2xl p-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500">
-                            <option value="ntp">1. برنامج التحول الوطني</option>
-                            <option value="nidlp">2. برنامج تطوير الصناعة والخدمات (ندلب)</option>
-                            <option value="pif">3. برنامج صندوق الاستثمارات العامة</option>
-                            <option value="hajj">4. برنامج خدمة ضيوف الرحمن</option>
-                            <option value="health">5. برنامج تحول القطاع الصحي</option>
-                            <option value="housing">6. برنامج الإسكان</option>
+                            <!-- Dynamic Content -->
                         </select>
                     </div>
                     <div class="flex gap-8">
@@ -369,7 +367,7 @@
                             <i class="fas fa-triangle-exclamation"></i> العقبات والتهديدات المرصودة
                         </h4>
                         <div id="vision-threats" class="space-y-2">
-                            <div class="bg-red-950/20 p-4 rounded-2xl border border-red-500/10 text-xs text-red-200">- تباطؤ سلاسل التوريد العالمية للمكونات الأساسية.</div>
+                            <!-- Dynamic Content -->
                         </div>
                     </div>
                     <div class="space-y-4">
@@ -377,7 +375,7 @@
                             <i class="fas fa-shield-halved"></i> خطة تجاوز العقبات الاستباقية
                         </h4>
                         <div id="vision-plans" class="space-y-2">
-                            <div class="bg-emerald-950/20 p-4 rounded-2xl border border-emerald-500/10 text-xs text-emerald-200">- تفعيل "الجسر البري" لتنويع مسارات التوريد.</div>
+                            <!-- Dynamic Content -->
                         </div>
                     </div>
                 </div>
@@ -417,21 +415,19 @@
     </div>
 
     <script>
-        // Data Models
-        const crisisData = {
-            supply: { comment: "تعزيز المحتوى المحلي يرفع الصمود لنسب قياسية في قطاع الصناعة.", return: "6.8%", resilience: "A-", threats: ["توقف موانئ التصدير الرئيسية", "نقص المكونات الصناعية"], plans: ["تحويل مسار التصدير براً", "تفعيل المخزون الاستراتيجي"], p1: "تأمين المخزون الاستراتيجي وعزل أنظمة التحكم.", p2: "إعادة توجيه الإنفاق الرأسمالي نحو الموردين المحليين.", p3: "بناء شراكات استراتيجية لضمان استقلالية التوريد." },
-            tech: { comment: "الاستثمار في السحابة الوطنية يحمي 80% من بيانات المنشأة.", return: "4.2%", resilience: "B+", threats: ["حظر تحديثات الأنظمة السيادية", "تعطل الحوسبة السحابية"], plans: ["تفعيل الأنظمة المحلية المستقلة", "تسريع توطين التقنيات"], p1: "تفعيل أنظمة الحوسبة المحلية المستقلة.", p2: "تدريب الكوادر الوطنية على صيانة الأنظمة الحرجة.", p3: "تطوير برمجيات سيادية بديلة للأنظمة العالمية." },
-            carbon: { comment: "التحول للهيدروجين الأخضر يجنب المنشأة ضرائب بمليار دولار سنوياً.", return: "3.5%", resilience: "B", threats: ["ارتفاع تكلفة التصدير لأوروبا", "ضغوط مالية بيئية"], plans: ["شهادات الكربون المحلية", "تحسين كفاءة الطاقة"], p1: "حساب الأثر المالي الفوري لضرائب الكربون.", p2: "تحسين كفاءة استهلاك الطاقة في العمليات الحالية.", p3: "الاستثمار في تقنيات الهيدروجين والتقاط الكربون." },
-            cyber: { comment: "أنظمة التشفير الكمي تقلل احتمالية الاختراق بنسبة 99%.", return: "5.1%", resilience: "A", threats: ["تشفير البيانات الحساسة", "توقف الخدمات الرقمية"], plans: ["تفعيل مراكز التعافي من الكوارث", "عزل الأنظمة الحرجة"], p1: "عزل الأنظمة الصناعية الحساسة عن الشبكة العامة.", p2: "إجراء اختبارات اختراق شاملة لكافة المنافذ.", p3: "بناء مركز عمليات أمنية (SOC) وطني مستقل." }
+        // Data Models for Dynamic Context
+        const categories = {
+            ministry: { name: "وزارات", mult: 1.0, programs: ["برنامج التحول الوطني", "برنامج تحول القطاع الصحي", "برنامج الإسكان"] },
+            sovereign: { name: "هيئات سيادية/حكومية", mult: 1.3, programs: ["برنامج تطوير الصناعة والخدمات", "برنامج التحول الوطني", "برنامج التخصيص"] },
+            corporate: { name: "شركات وطنية", mult: 1.2, programs: ["برنامج صندوق الاستثمارات العامة", "برنامج تطوير الصناعة والخدمات", "برنامج تطوير القطاع المالي"] },
+            custom: { name: "جهة مخصصة", mult: 1.1, programs: ["برنامج التحول الوطني", "برنامج جودة الحياة"] }
         };
 
-        const companyInfo = {
-            aramco: { name: "أرامكو السعودية", sector: "energy", mult: 1.2 },
-            sabic: { name: "سابك", sector: "industry", mult: 1.1 },
-            alrajhi: { name: "مصرف الراجحي", sector: "finance", mult: 0.9 },
-            stc: { name: "stc", sector: "tech", mult: 1.3 },
-            maaden: { name: "معادن", sector: "mining", mult: 1.15 },
-            pif: { name: "صندوق الاستثمارات العامة", sector: "sovereign", mult: 1.5 }
+        const crisisData = {
+            supply: { comment: "تعزيز المحتوى المحلي يرفع الصمود لنسب قياسية.", return: "6.8%", resilience: "A-", threats: ["توقف مسارات التوريد الرئيسية", "نقص المكونات الحيوية"], plans: ["تفعيل المسارات البديلة", "تعزيز المخزون الاستراتيجي المحلي"], p1: "تأمين العمليات الحرجة وعزل أنظمة التحكم.", p2: "إعادة تخصيص الموارد نحو الموردين المحليين.", p3: "بناء شراكات لضمان استقلالية التوريد." },
+            tech: { comment: "الاستثمار في الأنظمة السيادية يحمي 80% من بيانات الجهة.", return: "4.2%", resilience: "B+", threats: ["حظر التحديثات السيادية", "تعطل الوصول للتقنيات العالمية"], plans: ["تفعيل الحلول الوطنية المستقلة", "تسريع توطين التقنية"], p1: "تفعيل أنظمة الحوسبة المحلية المستقلة.", p2: "تدريب الكوادر الوطنية على صيانة الأنظمة.", p3: "تطوير برمجيات سيادية بديلة." },
+            carbon: { comment: "التحول للاستدامة يجنب الجهة تكاليف مالية وبيئية باهظة.", return: "3.5%", resilience: "B", threats: ["ارتفاع تكاليف التشغيل البيئية", "ضغوط الالتزام بالمعايير الخضراء"], plans: ["اعتماد شهادات الاستدامة المحلية", "تحسين كفاءة الطاقة التشغيلية"], p1: "حساب الأثر المالي الفوري للمعايير الجديدة.", p2: "تحسين كفاءة استهلاك الموارد في العمليات.", p3: "الاستثمار في تقنيات العمليات النظيفة." },
+            cyber: { comment: "أنظمة التشفير الوطنية تقلل احتمالية الاختراق بنسبة قياسية.", return: "5.1%", resilience: "A", threats: ["توقف الخدمات الرقمية", "تسريب بيانات حساسة"], plans: ["تفعيل مراكز التعافي الوطنية", "عزل الشبكات الحرجة"], p1: "عزل الأنظمة الحساسة عن الشبكة العامة.", p2: "إجراء اختبارات اختراق شاملة وفورية.", p3: "بناء مركز عمليات أمنية مستقل." }
         };
 
         // PILLAR 1: Live API Simulation
@@ -458,19 +454,26 @@
             }, 3000);
         }
 
-        // PILLAR 2: Dynamic Sector-Specific Engine
+        // PILLAR 2: Dynamic Engine Refactored
         function updateDashboard() {
+            const catKey = document.getElementById('entity-category').value;
+            const entityName = document.getElementById('entity-name').value || "الجهة المحددة";
             const crisisId = document.getElementById('crisis-type-select').value;
             const capex = parseInt(document.getElementById('capex-slider').value);
-            const compKey = document.getElementById('company-select').value;
+            
+            const category = categories[catKey];
             const data = crisisData[crisisId];
-            const comp = companyInfo[compKey];
-            const mult = comp.mult;
+            const mult = category.mult;
 
+            // Update Vision Programs Select
+            const visionSelect = document.getElementById('vision-select');
+            const currentVal = visionSelect.value;
+            visionSelect.innerHTML = category.programs.map((p, index) => `<option value="${index}">${p}</option>`).join('');
+            
             // Core Dashboard
             document.getElementById('capex-val').innerText = capex + '%';
             
-            // 1. Trade-Off Matrix (Factoring Sector Multiplier)
+            // 1. Trade-Off Matrix
             const cost = Math.min(100, capex * mult);
             const liquidity = Math.max(0, 100 - (capex * (2 - mult)));
             const growth = Math.min(100, (100 - (capex * 0.8)) * mult);
@@ -490,8 +493,8 @@
             document.getElementById('meter-roi-fill').style.width = roi + '%';
 
             // 2. Roadmap
-            document.getElementById('roadmap-p1').innerText = `[${comp.name}] ${data.p1}`;
-            document.getElementById('roadmap-p2').innerText = `[تحوط قطاع ${comp.sector}] ${data.p2}`;
+            document.getElementById('roadmap-p1').innerText = `[${entityName}] ${data.p1}`;
+            document.getElementById('roadmap-p2').innerText = `[تحوط ${category.name}] ${data.p2}`;
             document.getElementById('roadmap-p3').innerText = data.p3;
 
             // 3. Gap Analysis
@@ -509,27 +512,30 @@
             document.getElementById('gap-fin-fill').style.width = Math.min(100, Math.abs(finGap) + 50) + '%';
             document.getElementById('gap-fin-val').innerText = `${finGap > 0 ? '+' : ''}${finGap.toFixed(0)}%`;
 
-            // Resilience Index
+            // Vision Section
             document.getElementById('risk-index').innerText = (80 - (capex * mult) / 2).toFixed(0) + '%';
+            document.getElementById('vision-threats').innerHTML = data.threats.map(t => `<div class="bg-red-950/20 p-4 rounded-2xl border border-red-500/10 text-xs text-red-200">- ${t}</div>`).join('');
+            document.getElementById('vision-plans').innerHTML = data.plans.map(p => `<div class="bg-emerald-950/20 p-4 rounded-2xl border border-emerald-500/10 text-xs text-emerald-200">- ${p}</div>`).join('');
         }
 
-        // PILLAR 3: AI Sovereign RAG Citations
+        // PILLAR 3: AI Advisory Refactored
         async function generateAIAdvisory() {
             const consoleText = document.getElementById('ai-output-text');
             const status = document.getElementById('ai-status');
             const statusText = document.getElementById('ai-status-text');
-            const compKey = document.getElementById('company-select').value;
-            const comp = companyInfo[compKey].name;
+            
+            const catKey = document.getElementById('entity-category').value;
+            const entityName = document.getElementById('entity-name').value || "الجهة المحددة";
             const crisis = document.getElementById('crisis-type-select').options[document.getElementById('crisis-type-select').selectedIndex].text;
             const capex = document.getElementById('capex-slider').value;
             const vision = document.getElementById('vision-select').options[document.getElementById('vision-select').selectedIndex].text;
 
             status.classList.remove('hidden');
-            statusText.innerText = "Scanning Sovereign Knowledge Base (Vision 2030, SAMA, NIDLP)...";
+            statusText.innerText = "Scanning Sovereign Knowledge Base...";
             consoleText.innerHTML = '<div class="flex items-center justify-center h-full"><i class="fas fa-satellite fa-spin text-4xl text-emerald-500"></i></div>';
 
             await new Promise(r => setTimeout(r, 1500));
-            statusText.innerText = "Retrieving Sector Multipliers & Strategic References...";
+            statusText.innerText = "Analyzing Entity Type Dynamics...";
             await new Promise(r => setTimeout(r, 1000));
 
             status.classList.add('hidden');
@@ -538,29 +544,18 @@
 
             const fullText = `
                 <div class="border-b border-emerald-500/20 pb-4">
-                    <h4 class="text-emerald-400 font-black mb-2">1. التقرير التشخيصي للمخاطر (Risk Assessment)</h4>
-                    <p class="text-xs leading-relaxed">بناءً على تحليل البيانات الحالية، تواجه شركة <span class="text-white">${comp}</span> تهديداً مباشراً ناتجاً عن <span class="text-white">${crisis}</span>. هذا السيناريو يهدد التدفقات النقدية التشغيلية بنسبة انخفاض تقدر بـ 22% في الربع الأول نتيجة تعطل الوصول للموارد الحيوية.</p>
+                    <h4 class="text-emerald-400 font-black mb-2">1. التقرير التشخيصي (Risk Assessment)</h4>
+                    <p class="text-xs leading-relaxed">بناءً على تصنيف <span class="text-white">${categories[catKey].name}</span>، تواجه <span class="text-white">${entityName}</span> مخاطر ناتجة عن <span class="text-white">${crisis}</span>. يتطلب هذا السيناريو استجابة منسقة لحماية العمليات الأساسية بنسبة صمود مستهدفة تصل إلى 90%.</p>
                 </div>
                 <div class="border-b border-emerald-500/20 pb-4">
-                    <h4 class="text-emerald-400 font-black mb-2">2. خارطة طريق التحوط الرأسمالي (CapEx Roadmap)</h4>
-                    <p class="text-xs leading-relaxed">إن نسبة التحوط الحالية البالغة <span class="text-white">${capex}%</span> تعتبر ${capex > 50 ? 'استراتيجية وقوية' : 'غير كافية لمواجهة تقلبات السوق'}. نوصي فوراً بـ:
-                    <br>• إعادة توجيه 15% من الميزانية المخصصة للتوسع الخارجي نحو بناء مستودعات ذكية محلية.
-                    <br>• تفعيل عقود التحوط من مخاطر أسعار اللوجستيات لضمان استقرار التكاليف.</p>
+                    <h4 class="text-emerald-400 font-black mb-2">2. توصية التحوط (Strategic Recommendation)</h4>
+                    <p class="text-xs leading-relaxed">إن مستوى التحوط الحالي (<span class="text-white">${capex}%</span>) يستوجب:
+                    <br>• تعزيز السيولة التشغيلية لضمان استمرارية الخدمات.
+                    <br>• تفعيل بروتوكولات الطوارئ المعتمدة للقطاع.</p>
                 </div>
                 <div class="border-b border-emerald-500/20 pb-4">
-                    <h4 class="text-emerald-400 font-black mb-2">3. المواءمة السيادية ورؤية 2030 (Sovereign Alignment)</h4>
-                    <p class="text-xs leading-relaxed">لحماية مستهدفات <span class="text-white">${vision}</span>، يجب على المنشأة العمل كذراع صمود وطني من خلال تسريع توطين سلاسل الإمداد بنسبة 40% إضافية.</p>
-                </div>
-                <div class="bg-emerald-950/40 p-4 rounded-2xl border border-emerald-500/20">
-                    <h4 class="text-[10px] text-emerald-400 font-black mb-2 uppercase tracking-widest flex items-center gap-2">
-                        <i class="fas fa-quote-right"></i> المصادر والمراجع السيادية المسترجعة (RAG Citations)
-                    </h4>
-                    <div class="grid grid-cols-2 gap-2 text-[9px] font-mono text-emerald-300/70">
-                        <div>[DOC-V2030-NIDLP-4.2]</div>
-                        <div>[SAMA-MONETARY-2026-P3]</div>
-                        <div>[MEP-STRAT-RISK-V6]</div>
-                        <div>[PIF-LOCAL-CONTENT-DIR]</div>
-                    </div>
+                    <h4 class="text-emerald-400 font-black mb-2">3. مواءمة الرؤية (Vision Alignment)</h4>
+                    <p class="text-xs leading-relaxed">لتحقيق مستهدفات <span class="text-white">${vision}</span>، يجب دمج معايير المرونة الوطنية في صلب استراتيجية الجهة.</p>
                 </div>
             `;
 
@@ -579,14 +574,8 @@
 
         function launchWarRoom() {
             const console = document.getElementById('war-room-console');
-            console.innerHTML = '<div class="text-blue-400 font-bold mb-4">>>> نظام المحاكاة الاستراتيجية متصل.</div>';
-            
-            const msgs = [
-                { role: "CEO", text: "تفعيل بروتوكول الصمود الوطني فوراً." },
-                { role: "CFO", text: "بدأنا بتسييل الأصول غير الأساسية لدعم السيولة." },
-                { role: "COO", text: "تأمين 3 مسارات لوجستية بديلة عبر الجسر البري." }
-            ];
-
+            console.innerHTML = '<div class="text-blue-400 font-bold mb-4">>>> نظام المحاكاة متصل.</div>';
+            const msgs = [{ role: "القيادة", text: "بدء محاكاة الأزمة للجهة المحددة." }, { role: "العمليات", text: "تفعيل خطة الاستمرارية." }];
             let i = 0;
             const interval = setInterval(() => {
                 if (i >= msgs.length) { clearInterval(interval); return; }
@@ -598,9 +587,9 @@
         // Listeners
         document.getElementById('capex-slider').addEventListener('input', updateDashboard);
         document.getElementById('crisis-type-select').addEventListener('change', updateDashboard);
-        document.getElementById('company-select').addEventListener('change', updateDashboard);
+        document.getElementById('entity-category').addEventListener('change', updateDashboard);
+        document.getElementById('entity-name').addEventListener('input', updateDashboard);
         
-        // Init
         window.onload = () => {
             simulateLiveAPI();
             updateDashboard();
