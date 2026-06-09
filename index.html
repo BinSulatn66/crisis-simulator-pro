@@ -3,51 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crisis Simulator | محاكي الأزمات</title>
+    <title>Crisis Simulator Pro | محاكي الأزمات المطور</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .gradient-bg { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); }
+        .search-shadow { box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.1); }
     </style>
 </head>
 <body class="p-4 md:p-8">
-    <div class="max-w-5xl mx-auto">
+    <div class="max-w-6xl mx-auto">
         <!-- Header -->
         <header class="gradient-bg text-white rounded-2xl p-8 mb-8 shadow-xl relative overflow-hidden">
             <div class="relative z-10">
-                <h1 class="text-3xl font-bold mb-2">Crisis Simulator <span class="text-blue-400">|</span> محاكي الأزمات</h1>
-                <p class="text-slate-300">Strategic MVP for Rapid Response and Tactical Hedging Analysis</p>
+                <h1 class="text-3xl font-bold mb-2">Crisis Simulator Pro <span class="text-blue-400">|</span> محاكي الأزمات المطور</h1>
+                <p class="text-slate-300">Strategic Intelligence Dashboard for Tadawul Listed Entities</p>
             </div>
-            <i class="fas fa-shield-halved absolute -right-4 -bottom-4 text-9xl opacity-10"></i>
+            <i class="fas fa-chart-line absolute -right-4 -bottom-4 text-9xl opacity-10"></i>
         </header>
+
+        <!-- Company Intelligence Bar -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <div class="relative group">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="fas fa-magnifying-glass text-slate-400"></i>
+                </div>
+                <input type="text" id="company-search" placeholder="Search Tadawul Company (e.g. Aramco, SABIC...)" 
+                    class="w-full bg-white border border-slate-200 rounded-xl py-4 pl-12 pr-4 outline-none focus:ring-2 focus:ring-blue-500 transition search-shadow">
+                <div id="search-results" class="absolute z-20 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-2xl hidden overflow-hidden">
+                    <!-- Results Injected Here -->
+                </div>
+            </div>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-blue-500">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <select id="sector-selector" class="w-full bg-white border border-slate-200 rounded-xl py-4 pl-12 pr-4 outline-none focus:ring-2 focus:ring-blue-500 transition search-shadow appearance-none">
+                    <option value="custom">Manual Sector Configuration</option>
+                    <option value="energy">Energy & Petrochemicals</option>
+                    <option value="banking">Banking & Finance</option>
+                    <option value="telecom">Telecommunications</option>
+                    <option value="mining">Mining & Resources</option>
+                </select>
+            </div>
+        </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Sidebar: Controls -->
             <div class="lg:col-span-1 space-y-6">
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
                     <h2 class="text-lg font-semibold mb-4 text-slate-800 flex items-center">
-                        <i class="fas fa-sliders mr-2 text-blue-600"></i> Parameters
+                        <i class="fas fa-sliders mr-2 text-blue-600"></i> Entity Parameters
                     </h2>
                     
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-slate-600 mb-2">Crisis Scenario</label>
+                        <label class="block text-sm font-medium text-slate-600 mb-2">Active Crisis Scenario</label>
                         <select id="scenario" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none transition">
                             <option value="cbam">EU Carbon Tax (CBAM) Impact</option>
                             <option value="supply">Supply Chain Shutdown</option>
-                            <option value="vision">KSA Vision 2040 Regulatory Shift</option>
+                            <option value="vision">Vision 2030 Regulatory Shift</option>
                         </select>
                     </div>
 
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-slate-600 mb-2">Digital Maturity (1-10)</label>
+                        <label class="block text-sm font-medium text-slate-600 mb-2">Tech/Digital Maturity</label>
                         <input type="range" id="digital" min="1" max="10" value="5" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
                         <div class="flex justify-between text-xs text-slate-400 mt-1"><span>Low</span><span id="digital-val">5</span><span>High</span></div>
                     </div>
 
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-slate-600 mb-2">Cash Reserves (Months)</label>
+                        <label class="block text-sm font-medium text-slate-600 mb-2">Liquidity Buffer (Months)</label>
                         <input type="range" id="cash" min="0" max="24" value="6" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
                         <div class="flex justify-between text-xs text-slate-400 mt-1"><span>0m</span><span id="cash-val">6m</span><span>24m</span></div>
                     </div>
@@ -55,39 +82,49 @@
                     <div class="space-y-3">
                         <label class="flex items-center space-x-3 cursor-pointer">
                             <input type="checkbox" id="hedging" class="form-checkbox h-5 w-5 text-blue-600 rounded">
-                            <span class="text-sm text-slate-700">Active Financial Hedging</span>
+                            <span class="text-sm text-slate-700 font-medium">Financial Hedging active</span>
                         </label>
                         <label class="flex items-center space-x-3 cursor-pointer">
                             <input type="checkbox" id="suppliers" class="form-checkbox h-5 w-5 text-blue-600 rounded">
-                            <span class="text-sm text-slate-700">Diversified Suppliers</span>
+                            <span class="text-sm text-slate-700 font-medium">Diversified Value Chain</span>
                         </label>
+                    </div>
+                </div>
+
+                <div id="company-info-card" class="bg-blue-50 rounded-2xl p-6 border border-blue-100 hidden">
+                    <h3 class="font-bold text-blue-800 mb-1" id="active-company-name">Company Name</h3>
+                    <p class="text-xs text-blue-600 uppercase tracking-wider" id="active-company-ticker">TICKER: 0000</p>
+                    <div class="mt-4 pt-4 border-t border-blue-200 text-sm text-blue-700 italic" id="analyst-note">
+                        Preset loaded from latest Tadawul financial disclosures.
                     </div>
                 </div>
             </div>
 
             <!-- Main Dashboard: Results -->
             <div class="lg:col-span-2 space-y-6">
-                <!-- Metrics Row -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                        <p class="text-sm font-medium text-slate-500 uppercase">Readiness Score</p>
+                        <p class="text-sm font-medium text-slate-500 uppercase">Institutional Resilience</p>
                         <div class="flex items-end justify-between">
-                            <h3 id="readiness-score" class="text-4xl font-bold text-slate-800">0%</h3>
+                            <h3 id="readiness-score" class="text-5xl font-bold text-slate-800">0%</h3>
                             <span id="readiness-status" class="px-3 py-1 rounded-full text-xs font-bold uppercase"></span>
                         </div>
                     </div>
                     <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                        <p class="text-sm font-medium text-slate-500 uppercase">Risk Exposure</p>
+                        <p class="text-sm font-medium text-slate-500 uppercase">Strategic Risk Level</p>
                         <div class="flex items-end justify-between">
-                            <h3 id="risk-level" class="text-4xl font-bold text-slate-800">LOW</h3>
-                            <i id="risk-icon" class="fas fa-circle-exclamation text-2xl"></i>
+                            <h3 id="risk-level" class="text-5xl font-bold text-slate-800">LOW</h3>
+                            <i id="risk-icon" class="fas fa-circle-exclamation text-3xl"></i>
                         </div>
                     </div>
                 </div>
 
                 <!-- Analysis Card -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 min-h-[300px]">
-                    <h2 class="text-lg font-semibold mb-6 text-slate-800 border-b pb-4">Tactical Hedging & Analysis</h2>
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 min-h-[400px]">
+                    <h2 class="text-xl font-bold mb-6 text-slate-800 border-b pb-4 flex justify-between items-center">
+                        <span>Analyst Commentary & Tactical Steps</span>
+                        <span class="text-xs bg-slate-100 px-2 py-1 rounded text-slate-500 font-normal">Auto-Calculated</span>
+                    </h2>
                     
                     <div id="scenario-content" class="space-y-6">
                         <!-- Dynamic Content Inject -->
@@ -98,34 +135,49 @@
     </div>
 
     <script>
+        const companies = [
+            { name: "Saudi Aramco", ticker: "2222", sector: "energy", digital: 9, cash: 24, hedging: true, suppliers: true, note: "Top-tier operational resilience and significant liquidity buffer." },
+            { name: "SABIC", ticker: "2010", sector: "energy", digital: 8, cash: 18, hedging: true, suppliers: true, note: "Exposure to global trade cycles requires active commodity hedging." },
+            { name: "Al Rajhi Bank", ticker: "1120", sector: "banking", digital: 9, cash: 24, hedging: true, suppliers: false, note: "Strong digital infrastructure; focus on domestic credit exposure." },
+            { name: "STC", ticker: "7010", sector: "telecom", digital: 10, cash: 12, hedging: false, suppliers: true, note: "Market leader in digital maturity; sensitive to regulatory shifts." },
+            { name: "Ma'aden", ticker: "1211", sector: "mining", digital: 7, cash: 9, hedging: true, suppliers: true, note: "High capital intensity with long-cycle commodity exposure." }
+        ];
+
+        const sectorDefaults = {
+            energy: { digital: 8, cash: 18, hedging: true, suppliers: true },
+            banking: { digital: 9, cash: 24, hedging: true, suppliers: false },
+            telecom: { digital: 10, cash: 12, hedging: false, suppliers: true },
+            mining: { digital: 6, cash: 8, hedging: true, suppliers: true }
+        };
+
         const scenarios = {
             cbam: {
                 title: "EU Carbon Tax (CBAM)",
-                desc: "Impact of new EU carbon border adjustment mechanisms on export costs.",
-                hedging: [
-                    "Accelerate green energy transition in production.",
-                    "Invest in Carbon Credit offsets for short-term mitigation.",
-                    "استثمار في تكنولوجيا الإنتاج النظيف لتقليل تكاليف التصدير"
+                desc: "Impact of new EU carbon border adjustment mechanisms on energy and industrial exports.",
+                steps: [
+                    "Direct investment in low-carbon production technologies.",
+                    "Strategic audit of Tier-1 supplier emissions profiles.",
+                    "تحسين كفاءة استهلاك الطاقة وتقليل الانبعاثات الكربونية"
                 ],
-                baseRisk: 70
+                baseRisk: 75
             },
             supply: {
-                title: "Supply Chain Shutdown",
-                desc: "Total blockage of primary trade routes or key supplier bankruptcy.",
-                hedging: [
-                    "Secure 6-month buffer stock for critical components.",
-                    "Establish 'Near-shoring' production hubs.",
-                    "تفعيل خطوط التوريد البديلة فوراً وتأمين المخزون الاستراتيجي"
+                title: "Global Supply Chain Shutdown",
+                desc: "Systemic failure of critical trade lanes and logistical nodes.",
+                steps: [
+                    "Transition to a 'China+1' or local sourcing strategy.",
+                    "Secure priority air-freight and dry-port capacity pre-emptively.",
+                    "تأمين سلاسل الإمداد المحلية وتقليل الاعتماد على الاستيراد"
                 ],
                 baseRisk: 85
             },
             vision: {
-                title: "Vision 2040 Regulatory Shift",
-                desc: "Rapid shift in local labor laws and localization requirements in KSA.",
-                hedging: [
-                    "Automate low-skilled processes to reduce headcount dependency.",
-                    "Scale internal training academies for specialized roles.",
-                    "مواءمة خطط التوظيف مع التوجهات التنظيمية الجديدة لرؤية 2040"
+                title: "Vision 2030 Regulatory Shift",
+                desc: "Rapid evolution of KSA labor requirements and digital transformation mandates.",
+                steps: [
+                    "Implement AI-driven operational automation to optimize headcount.",
+                    "Execute specialized localization (Saudization) talent programs.",
+                    "تسريع التحول الرقمي بما يتماشى مع مستهدفات رؤية 2030"
                 ],
                 baseRisk: 50
             }
@@ -141,24 +193,21 @@
             document.getElementById('digital-val').innerText = digital;
             document.getElementById('cash-val').innerText = cash + 'm';
 
-            // Logic matching Python MVP
             let score = (digital * 4);
             score += Math.min(cash * 2, 20);
             if (hedging) score += 20;
             if (suppliers) score += 20;
 
             const scenario = scenarios[scenarioKey];
-            let risk = scenario.baseRisk - (score * 0.5);
+            let risk = scenario.baseRisk - (score * 0.45);
 
-            // Update UI
-            const scoreEl = document.getElementById('readiness-score');
+            document.getElementById('readiness-score').innerText = score + '%';
             const statusEl = document.getElementById('readiness-status');
-            scoreEl.innerText = score + '%';
             
             if(score < 40) {
                 statusEl.innerText = 'Critical / حرج';
                 statusEl.className = 'px-3 py-1 rounded-full text-xs font-bold uppercase bg-red-100 text-red-600';
-            } else if(score < 70) {
+            } else if(score < 75) {
                 statusEl.innerText = 'Stable / مستقر';
                 statusEl.className = 'px-3 py-1 rounded-full text-xs font-bold uppercase bg-yellow-100 text-yellow-600';
             } else {
@@ -166,42 +215,104 @@
                 statusEl.className = 'px-3 py-1 rounded-full text-xs font-bold uppercase bg-green-100 text-green-600';
             }
 
-            const riskLevel = risk > 60 ? 'HIGH' : (risk > 30 ? 'MEDIUM' : 'LOW');
+            const riskLevel = risk > 65 ? 'HIGH' : (risk > 35 ? 'MEDIUM' : 'LOW');
             const riskEl = document.getElementById('risk-level');
             const iconEl = document.getElementById('risk-icon');
             riskEl.innerText = riskLevel;
-            riskEl.className = \`text-4xl font-bold \${riskLevel === 'HIGH' ? 'text-red-600' : (riskLevel === 'MEDIUM' ? 'text-yellow-600' : 'text-green-600')}\`;
-            iconEl.className = \`fas fa-circle-exclamation text-2xl \${riskLevel === 'HIGH' ? 'text-red-600' : (riskLevel === 'MEDIUM' ? 'text-yellow-600' : 'text-green-600')}\`;
+            riskEl.className = `text-5xl font-bold ${riskLevel === 'HIGH' ? 'text-red-600' : (riskLevel === 'MEDIUM' ? 'text-yellow-600' : 'text-green-600')}`;
+            iconEl.className = `fas fa-circle-exclamation text-3xl ${riskLevel === 'HIGH' ? 'text-red-600' : (riskLevel === 'MEDIUM' ? 'text-yellow-600' : 'text-green-600')}`;
 
-            // Content
-            let html = \`
+            let html = `
                 <div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-2">\${scenario.title}</h3>
-                    <p class="text-slate-600 mb-6">\${scenario.desc}</p>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2">${scenario.title}</h3>
+                    <p class="text-slate-600 text-lg leading-relaxed">${scenario.desc}</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                        <p class="text-xs font-bold text-blue-800 uppercase mb-2">Hedging Analyst Perspective</p>
+                        <p class="text-sm text-blue-700 leading-relaxed">Based on current parameters, the entity is ${score > 70 ? 'well-positioned to absorb' : 'sensitive to'} high-volatility events. Priority should be given to ${digital < 7 ? 'Digital Infrastructure' : 'Liquidity Management'}.</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <p class="text-xs font-bold text-slate-800 uppercase mb-2">KSA Market Context</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">Alignment with local content requirements is ${suppliers ? 'Satisfactory' : 'Required'}. Global supply exposures remain the primary risk vector.</p>
+                    </div>
                 </div>
                 <div>
-                    <h4 class="font-semibold text-slate-700 mb-3 flex items-center">
-                        <i class="fas fa-list-check mr-2 text-blue-500"></i> Tactical Hedging Steps
+                    <h4 class="font-bold text-slate-700 mb-4 flex items-center">
+                        <i class="fas fa-list-check mr-2 text-blue-500"></i> Tactical Resilience Steps
                     </h4>
                     <ul class="space-y-3">
-                        \${scenario.hedging.map(step => \`
-                            <li class="flex items-start bg-slate-50 p-3 rounded-lg border border-slate-100">
-                                <i class="fas fa-chevron-right mt-1.5 mr-3 text-xs text-blue-400"></i>
-                                <span class="text-slate-700 text-sm">\${step}</span>
+                        ${scenario.steps.map(step => `
+                            <li class="flex items-center bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                                <i class="fas fa-check-circle mr-3 text-blue-500"></i>
+                                <span class="text-slate-700 font-medium">${step}</span>
                             </li>
-                        \`).join('')}
+                        `).join('')}
                     </ul>
                 </div>
-            \`;
+            `;
             document.getElementById('scenario-content').innerHTML = html;
         }
 
-        // Listeners
+        const searchInput = document.getElementById('company-search');
+        const searchResults = document.getElementById('search-results');
+
+        searchInput.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase();
+            if (!val) { searchResults.classList.add('hidden'); return; }
+            
+            const filtered = companies.filter(c => c.name.toLowerCase().includes(val) || c.ticker.includes(val));
+            if (filtered.length === 0) { searchResults.classList.add('hidden'); return; }
+
+            searchResults.innerHTML = filtered.map(c => `
+                <div class="px-4 py-3 hover:bg-slate-50 cursor-pointer border-b last:border-0 border-slate-100 flex justify-between items-center" 
+                    onclick="selectCompany('${c.ticker}')">
+                    <span class="font-semibold text-slate-700">${c.name}</span>
+                    <span class="text-xs bg-slate-100 text-slate-500 px-2 py-1 rounded">TICKER: ${c.ticker}</span>
+                </div>
+            `).join('');
+            searchResults.classList.remove('hidden');
+        });
+
+        function selectCompany(ticker) {
+            const company = companies.find(c => c.ticker === ticker);
+            document.getElementById('digital').value = company.digital;
+            document.getElementById('cash').value = company.cash;
+            document.getElementById('hedging').checked = company.hedging;
+            document.getElementById('suppliers').checked = company.suppliers;
+            document.getElementById('sector-selector').value = company.sector;
+            
+            searchInput.value = company.name;
+            searchResults.classList.add('hidden');
+
+            const infoCard = document.getElementById('company-info-card');
+            document.getElementById('active-company-name').innerText = company.name;
+            document.getElementById('active-company-ticker').innerText = `TICKER: ${company.ticker}`;
+            document.getElementById('analyst-note').innerText = company.note;
+            infoCard.classList.remove('hidden');
+
+            calculate();
+        }
+
+        document.getElementById('sector-selector').addEventListener('change', (e) => {
+            const sector = e.target.value;
+            if (sector === 'custom') return;
+            
+            const defaults = sectorDefaults[sector];
+            document.getElementById('digital').value = defaults.digital;
+            document.getElementById('cash').value = defaults.cash;
+            document.getElementById('hedging').checked = defaults.hedging;
+            document.getElementById('suppliers').checked = defaults.suppliers;
+            
+            document.getElementById('company-search').value = "";
+            document.getElementById('company-info-card').classList.add('hidden');
+            calculate();
+        });
+
         ['scenario', 'digital', 'cash', 'hedging', 'suppliers'].forEach(id => {
             document.getElementById(id).addEventListener('input', calculate);
         });
 
-        // Init
         calculate();
     </script>
 </body>
