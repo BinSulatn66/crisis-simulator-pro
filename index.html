@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>محاكي الصلابة السيادية | Sovereign Resilience Simulator v9.0</title>
+    <title>محاكي الأزمات المطور | Executive Command Center v6.0 Elite</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -12,12 +12,9 @@
         :root {
             --executive-green: #064e3b;
             --saudi-emerald: #10b981;
-            --saudi-dark-emerald: #006C35;
-            --saudi-gold: #fbbf24;
-            --charcoal-bg: #020617;
-            --deep-navy: #0f172a;
-            --matrix-border: rgba(16, 185, 129, 0.2);
-            --glass-bg: rgba(15, 23, 42, 0.8);
+            --charcoal-bg: #0f172a;
+            --deep-navy: #1e293b;
+            --gold-accent: #fbbf24;
         }
 
         body {
@@ -26,359 +23,439 @@
             color: #f8fafc;
             overflow-x: hidden;
             scroll-behavior: smooth;
-            -webkit-tap-highlight-color: transparent;
         }
 
         .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
-        .pulse { animation: pulse-animation 3s infinite; }
+        .saudi-gradient-border {
+            border-top: 4px solid var(--saudi-emerald);
+        }
+
+        .pulse { animation: pulse-animation 2s infinite; }
         @keyframes pulse-animation {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .marquee {
+            white-space: nowrap;
+            display: inline-block;
+            animation: marquee 40s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         .custom-slider {
             -webkit-appearance: none;
             width: 100%;
-            height: 2px;
+            height: 6px;
             background: #1e293b;
+            border-radius: 5px;
             outline: none;
         }
         .custom-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
-            background: var(--saudi-gold);
+            width: 24px;
+            height: 24px;
+            background: var(--saudi-emerald);
             border-radius: 50%;
             cursor: pointer;
-            border: 2px solid var(--charcoal-bg);
-            box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+            border: 3px solid #fff;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
         }
 
-        .btn-gold {
-            background: linear-gradient(135deg, var(--saudi-gold), #d97706);
-            color: #020617;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .meter-fill {
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .btn-gold:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 20px -5px rgba(251, 191, 36, 0.3);
-        }
-
-        .report-typography h3 { color: var(--saudi-gold); font-weight: 900; margin-bottom: 1.5rem; border-right: 4px solid var(--saudi-gold); padding-right: 1rem; }
-        .report-typography p { line-height: 1.8; color: #cbd5e1; margin-bottom: 2rem; font-size: 0.95rem; text-align: justify; }
-        .report-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem; }
-        .report-metric-box { background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.05); }
 
         @media print {
             .no-print { display: none !important; }
             body { background: white; color: black; }
-            .glass-card { background: white; border: 1px solid #eee; color: black; backdrop-filter: none; box-shadow: none; }
+            .glass-card { background: white; border: 1px solid #ddd; color: black; backdrop-filter: none; }
         }
 
-        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--charcoal-bg); }
-        ::-webkit-scrollbar-thumb { background: #334155; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--saudi-emerald); }
     </style>
 </head>
-<body class="antialiased selection:bg-emerald-500/30">
+<body class="antialiased">
 
-    <header class="no-print sticky top-0 z-50 border-b border-white/5 glass-card px-6 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-5">
-                <div class="w-12 h-12 bg-emerald-900 rounded-xl flex items-center justify-center border border-emerald-400/20">
-                    <i class="fas fa-shield-halved text-saudi-gold text-xl"></i>
-                </div>
-                <div>
-                    <h1 class="text-xl font-black text-white tracking-tight">Sovereign Resilience Simulator</h1>
-                    <p class="text-[10px] text-saudi-emerald font-bold uppercase tracking-widest opacity-70">Strategic CapEx Hedging & RAROR Modeling</p>
-                </div>
+    <!-- 1. Header & Global Feed -->
+    <section id="global-feed" class="no-print">
+        <div class="bg-emerald-950/90 border-b border-emerald-500/20 py-2.5 overflow-hidden shadow-2xl">
+            <div class="flex items-center gap-12 marquee text-[11px] font-bold text-emerald-400">
+                <span class="flex items-center gap-2"><i class="fas fa-satellite-dish pulse"></i> شريط الاستخبارات الموحد:</span>
+                <span><i class="fas fa-ship"></i> حركة الملاحة في هرمز: نشطة (48 ناقلة)</span>
+                <span><i class="fas fa-shield-virus"></i> مستوى التهديد السيبراني: مرتفع</span>
+                <span><i class="fas fa-oil-well"></i> خام برنت: $86.45 <i class="fas fa-caret-up"></i></span>
+                <span><i class="fas fa-microchip"></i> مؤشر توطين التقنية: 72%</span>
+                <span><i class="fas fa-globe-ame"></i> التوتر الجيوسياسي الإقليمي: ترقب أمني</span>
+                <span><i class="fas fa-building-columns"></i> تداول (TASI): 12,450.32 <i class="fas fa-caret-down text-red-400"></i></span>
             </div>
-            <button onclick="window.print()" class="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white transition-colors">
-                <i class="fas fa-file-export mr-2"></i> Export Analysis
-            </button>
         </div>
-    </header>
-
-    <main class="max-w-7xl mx-auto px-6 py-12 space-y-16">
         
-        <section id="control-center" class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            <!-- Parameters -->
-            <div class="lg:col-span-5 space-y-8">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="h-8 w-1 bg-saudi-gold"></div>
-                    <h2 class="text-xl font-black text-white">وحدة التحكم الاستراتيجي</h2>
+        <header class="sticky top-0 z-50 glass-card px-4 py-4 border-b border-white/5">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-emerald-600 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-900/20">
+                        <i class="fas fa-tower-observation text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-black text-white tracking-tight">مركز القيادة الاستراتيجي</h1>
+                        <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Executive Command Center v6.0 Elite</p>
+                    </div>
                 </div>
-
-                <div class="glass-card p-10 rounded-[2.5rem] space-y-10">
-                    <div>
-                        <label class="block text-[10px] text-slate-500 font-black mb-4 uppercase tracking-widest">محرك القطاعات السيادية</label>
-                        <select id="entity-select" class="w-full bg-slate-900/50 border border-white/10 text-white rounded-2xl p-5 text-sm font-bold focus:ring-1 focus:ring-saudi-gold outline-none transition-all">
-                            <optgroup label="برامج الرؤية والجهات السيادية">
-                                <option value="pif" data-risk="0.15" data-readiness="0.92">صندوق الاستثمارات العامة (PIF)</option>
-                                <option value="sama" data-risk="0.10" data-readiness="0.95">البنك المركزي السعودي (SAMA)</option>
-                                <option value="nidlp" data-risk="0.25" data-readiness="0.85">برنامج (NIDLP)</option>
-                            </optgroup>
-                            <optgroup label="القطاعات الاستراتيجية">
-                                <option value="energy" data-risk="0.20" data-readiness="0.90">منظومة الطاقة الوطنية</option>
-                                <option value="logistics" data-risk="0.35" data-readiness="0.78">قطاع النقل والخدمات اللوجستية</option>
-                                <option value="digital" data-risk="0.30" data-readiness="0.88">البنية التحتية الرقمية</option>
-                            </optgroup>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] text-slate-500 font-black mb-4 uppercase tracking-widest">سيناريو الأزمة (Impact Level)</label>
-                        <select id="crisis-select" class="w-full bg-slate-900/50 border border-white/10 text-white rounded-2xl p-5 text-sm font-bold focus:ring-1 focus:ring-saudi-gold outline-none transition-all">
-                            <option value="0.45">انقطاع سلاسل الإمداد العالمية (High Impact)</option>
-                            <option value="0.60">حظر تكنولوجي وسيبراني موجه (Critical)</option>
-                            <option value="0.30">تذبذب حاد في أسواق الطاقة (Moderate)</option>
-                            <option value="0.55">أزمة سيولة وائتمان دولية (High Impact)</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <div class="flex justify-between items-center mb-6">
-                            <span class="text-[10px] text-slate-500 font-black uppercase tracking-widest">كثافة التحوط الاستثماري (CapEx Hedging)</span>
-                            <span id="capex-val" class="text-lg font-black text-saudi-gold">40%</span>
-                        </div>
-                        <input type="range" id="capex-slider" min="0" max="100" value="40" class="custom-slider">
-                        <p class="text-[10px] text-slate-500 mt-4 leading-relaxed font-medium">إعادة توجيه ميزانية التوسع الرأسمالي نحو أصول ذات مرونة تشغيلية عالية لضمان التدفق النقدي دون اللجوء للدين.</p>
-                    </div>
-
-                    <button onclick="window.executeStrategicAnalysis()" class="btn-gold w-full py-5 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3">
-                        <i class="fas fa-microchip"></i> تشغيل النمذجة الرياضية
+                <div class="flex items-center gap-3">
+                    <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 shadow-lg shadow-emerald-900/40">
+                        <i class="fas fa-file-export"></i> تصدير التقرير التنفيذي
                     </button>
                 </div>
             </div>
+        </header>
+    </section>
 
-            <!-- Dashboard Preview -->
-            <div class="lg:col-span-7 space-y-8">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="h-8 w-1 bg-saudi-emerald"></div>
-                    <h2 class="text-xl font-black text-white">مؤشرات الصلابة الذهبية</h2>
+    <main class="max-w-7xl mx-auto px-4 py-8 space-y-12">
+
+        <!-- 2. Section 1: Strategic Modeling Unit -->
+        <section id="corporate-simulator" class="space-y-6">
+            <div class="flex items-center gap-3 border-r-4 border-emerald-500 pr-4">
+                <h2 class="text-2xl font-black text-white">وحدة نمذجة السيناريوهات الطارئة</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Controls (4 cols) -->
+                <div class="lg:col-span-4 space-y-4">
+                    <div class="glass-card p-6 rounded-3xl saudi-gradient-border h-full">
+                        <h3 class="text-sm font-bold text-emerald-400 mb-6 flex items-center gap-2 uppercase">
+                            <i class="fas fa-sliders"></i> معايير النمذجة الاستراتيجية
+                        </h3>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-[10px] text-slate-400 font-bold mb-2 uppercase">الفئة الاستراتيجية</label>
+                                <select id="category-select" onchange="window.updateEntityList()" class="w-full bg-slate-800 border-none text-white rounded-xl p-3 text-sm focus:ring-2 focus:ring-emerald-500 font-bold">
+                                    <option value="ministries">الوزارات الحكومية</option>
+                                    <option value="sovereign">الهيئات السيادية والاستثمارية</option>
+                                    <option value="leading_corporates">الشركات القيادية والقطاعات</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] text-slate-400 font-bold mb-2 uppercase">الجهة المستهدفة</label>
+                                <select id="entity-select" class="w-full bg-slate-800 border-none text-white rounded-xl p-3 text-sm focus:ring-2 focus:ring-emerald-500 font-bold">
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] text-slate-400 font-bold mb-2 uppercase">نوع الأزمة النشطة</label>
+                                <select id="crisis-select" class="w-full bg-slate-800 border-none text-white rounded-xl p-3 text-sm focus:ring-2 focus:ring-emerald-500 font-bold">
+                                    <option value="supply">انقطاع سلاسل الإمداد الدولية (Supply Chain)</option>
+                                    <option value="tech">حظر تكنولوجي / سيبراني موجه (Tech Sanctions)</option>
+                                    <option value="carbon">تفعيل ضرائب الكربون (CBAM Impact)</option>
+                                    <option value="liquidity">أزمة سيولة عالمية مفاجئة (Liquidity Crisis)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between items-center mb-4">
+                                    <span class="text-[10px] text-slate-400 font-bold uppercase">كثافة التحوط الاستثماري (CapEx Hedging)</span>
+                                    <span id="capex-val" class="text-lg font-black text-emerald-400">25%</span>
+                                </div>
+                                <input type="range" id="capex-slider" min="0" max="100" value="25" class="custom-slider">
+                            </div>
+
+                            <div class="pt-4 border-t border-white/5">
+                                <button id="generate-ai-btn" onclick="window.executeStrategicAnalysis()" class="w-full bg-slate-900 border-2 border-emerald-500/50 hover:border-emerald-400 text-emerald-400 hover:text-white hover:bg-emerald-600 py-4 rounded-2xl text-xs font-black transition-all shadow-[0_0_20px_rgba(16,185,129,0.15)] flex items-center justify-center gap-3">
+                                    <i class="fas fa-brain"></i> تشغيل التحليل الاستراتيجي (McKinsey-Grade)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="glass-card p-8 rounded-[2rem] border-r-4 border-saudi-gold">
-                        <p class="text-[10px] text-slate-500 font-black uppercase tracking-widest mb-2">RAROR Index</p>
-                        <div id="raror-display" class="text-4xl font-black text-white">0.00</div>
-                        <p class="text-[9px] text-slate-400 mt-3 font-bold uppercase tracking-tighter">Risk-Adjusted Return on Resilience</p>
+                <!-- Report Output (8 cols) -->
+                <div class="lg:col-span-8">
+                    <div id="ai-advisor-console" class="glass-card p-8 rounded-3xl h-full border border-emerald-500/10 flex flex-col">
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-sm font-black text-emerald-400 flex items-center gap-2 uppercase tracking-widest">
+                                <i class="fas fa-file-contract"></i> وحدة التقارير الاستراتيجية المعمقة
+                            </h3>
+                            <div id="ai-status" class="hidden flex items-center gap-2 text-[10px] text-emerald-500 font-bold bg-emerald-500/10 px-3 py-1 rounded-full">
+                                <i class="fas fa-circle-notch fa-spin"></i> جاري توليد التقرير المعمق...
+                            </div>
+                        </div>
+                        
+                        <div id="report-content" class="text-sm leading-relaxed text-slate-300 font-medium space-y-8 overflow-y-auto max-h-[500px] pr-2">
+                            <div class="flex flex-col items-center justify-center h-full text-center py-20 opacity-30">
+                                <i class="fas fa-microchip text-6xl mb-6"></i>
+                                <p class="text-sm font-bold uppercase tracking-[0.2em]">بانتظار تحديد البارامترات لبدء النمذجة الرياضية</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="glass-card p-8 rounded-[2rem] border-r-4 border-saudi-emerald">
-                        <p class="text-[10px] text-slate-500 font-black uppercase tracking-widest mb-2">Sovereign Buffer (SRB)</p>
-                        <div id="srb-display" class="text-4xl font-black text-white">0.00</div>
-                        <p class="text-[9px] text-slate-400 mt-3 font-bold uppercase tracking-tighter">Resilience Reserve Capacity</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Section 2: Golden Metrics & Trade-offs -->
+        <section id="advanced-analytics" class="space-y-8">
+            <div class="flex items-center gap-3 border-r-4 border-emerald-500 pr-4">
+                <h2 class="text-2xl font-black text-white">المؤشرات الذهبية ومصفوفة المقايضات</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Metric Column 1 -->
+                <div class="glass-card p-6 rounded-3xl saudi-gradient-border">
+                    <h3 class="text-xs font-black text-emerald-400 mb-6 uppercase flex items-center gap-2">
+                        <i class="fas fa-shield-halved"></i> مقاييس الصمود السيادي
+                    </h3>
+                    <div class="space-y-8">
+                        <div>
+                            <div class="flex justify-between text-[10px] font-bold mb-2 uppercase">
+                                <span class="text-slate-400">تقليل أثر الأزمة (Target: 20-40%)</span>
+                                <span id="impact-reduction-val" class="text-white">0%</span>
+                            </div>
+                            <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                                <div id="impact-reduction-fill" class="h-full bg-emerald-500 meter-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-[10px] font-bold mb-2 uppercase">
+                                <span class="text-slate-400">جاهزية المنظمة (Target: >80%)</span>
+                                <span id="org-readiness-val" class="text-white">0%</span>
+                            </div>
+                            <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                                <div id="org-readiness-fill" class="h-full bg-blue-500 meter-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="glass-card p-10 rounded-[2.5rem] relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-8 opacity-10">
-                        <i class="fas fa-chart-line text-8xl text-saudi-emerald"></i>
+                <!-- Metric Column 2 -->
+                <div class="glass-card p-6 rounded-3xl saudi-gradient-border">
+                    <h3 class="text-xs font-black text-emerald-400 mb-6 uppercase flex items-center gap-2">
+                        <i class="fas fa-chart-line"></i> مؤشرات الحماية المالية
+                    </h3>
+                    <div class="space-y-8">
+                        <div>
+                            <div class="flex justify-between text-[10px] font-bold mb-2 uppercase">
+                                <span class="text-slate-400">منع الخسائر العميقة (Target: 25-35%)</span>
+                                <span id="loss-prevention-val" class="text-white">0%</span>
+                            </div>
+                            <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                                <div id="loss-prevention-fill" class="h-full bg-yellow-500 meter-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-[10px] font-bold mb-2 uppercase">
+                                <span class="text-slate-400">استدامة التدفق النقدي (Target: 50%)</span>
+                                <span id="cashflow-val" class="text-white">0%</span>
+                            </div>
+                            <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                                <div id="cashflow-fill" class="h-full bg-emerald-600 meter-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-xs font-black text-saudi-gold uppercase tracking-[0.2em] mb-8">النتائج المستهدفة (Golden Metric Status)</h3>
+                </div>
+
+                <!-- Component 3: Strategic Mathematical Modeling -->
+                <div class="glass-card p-6 rounded-3xl saudi-gradient-border">
+                    <h3 class="text-xs font-black text-emerald-400 mb-6 uppercase flex items-center gap-2">
+                        <i class="fas fa-calculator"></i> النمذجة الرياضية (RAROR & SRB)
+                    </h3>
                     <div class="space-y-6">
-                        <div class="space-y-2">
-                            <div class="flex justify-between text-[10px] font-black uppercase tracking-widest">
-                                <span class="text-slate-400">Impact Reduction (Target 20-40%)</span>
-                                <span id="target-impact" class="text-saudi-emerald">0%</span>
-                            </div>
-                            <div class="h-1 bg-slate-800 rounded-full overflow-hidden">
-                                <div id="bar-impact" class="h-full bg-saudi-emerald transition-all duration-700" style="width: 0%"></div>
+                        <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5">
+                            <p class="text-[9px] text-slate-500 font-bold mb-1">RAROR Index (Risk-Adjusted Return on Resilience)</p>
+                            <div class="flex justify-between items-end">
+                                <span id="raror-val" class="text-2xl font-black text-emerald-400">0.00</span>
+                                <span class="text-[8px] text-slate-400 uppercase">Score Matrix Alpha</span>
                             </div>
                         </div>
-                        <div class="space-y-2">
-                            <div class="flex justify-between text-[10px] font-black uppercase tracking-widest">
-                                <span class="text-slate-400">Cash Flow Maintenance (Target 50%)</span>
-                                <span id="target-cash" class="text-saudi-emerald">0%</span>
-                            </div>
-                            <div class="h-1 bg-slate-800 rounded-full overflow-hidden">
-                                <div id="bar-cash" class="h-full bg-saudi-emerald transition-all duration-700" style="width: 0%"></div>
-                            </div>
-                        </div>
-                        <div class="space-y-2">
-                            <div class="flex justify-between text-[10px] font-black uppercase tracking-widest">
-                                <span class="text-slate-400">Growth Plan Protection (Target 60%)</span>
-                                <span id="target-growth" class="text-saudi-emerald">0%</span>
-                            </div>
-                            <div class="h-1 bg-slate-800 rounded-full overflow-hidden">
-                                <div id="bar-growth" class="h-full bg-saudi-emerald transition-all duration-700" style="width: 0%"></div>
+                        <div class="bg-slate-900/50 p-4 rounded-2xl border border-white/5">
+                            <p class="text-[9px] text-slate-500 font-bold mb-1">SRB Index (Sovereign Resilience Buffer)</p>
+                            <div class="flex justify-between items-end">
+                                <span id="srb-val" class="text-2xl font-black text-gold-accent">0.00</span>
+                                <span class="text-[8px] text-slate-400 uppercase">Buffer Coefficient</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Scenario Modeling Unit -->
-        <section id="scenario-unit" class="no-print space-y-8">
-            <div class="flex items-center gap-3">
-                <div class="h-8 w-1 bg-slate-700"></div>
-                <h2 class="text-xl font-black text-white">وحدة نمذجة السيناريوهات الطارئة</h2>
-            </div>
-            <div class="glass-card p-10 rounded-[2.5rem] border border-white/5">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 items-end">
-                    <div class="md:col-span-2 space-y-4">
-                        <label class="block text-[10px] text-slate-500 font-black uppercase tracking-widest">توصيف التهديد الاستراتيجي المخصص</label>
-                        <input id="custom-threat" type="text" placeholder="مثال: اضطراب الممرات المائية في البحر الأحمر..." class="w-full bg-slate-950/50 border border-white/10 rounded-2xl p-5 text-sm text-white font-bold focus:ring-1 focus:ring-saudi-gold outline-none">
-                    </div>
-                    <div class="space-y-4">
-                        <label class="block text-[10px] text-slate-500 font-black uppercase tracking-widest">درجة الخطورة</label>
-                        <select id="custom-severity" class="w-full bg-slate-950/50 border border-white/10 rounded-2xl p-5 text-sm text-white font-bold">
-                            <option value="0.2">منخفضة</option>
-                            <option value="0.5">متوسطة</option>
-                            <option value="0.8">حرجة للغاية</option>
-                        </select>
-                    </div>
-                    <button onclick="window.injectScenario()" class="bg-white/5 hover:bg-white/10 text-white font-black py-5 px-8 rounded-2xl text-[10px] uppercase tracking-widest border border-white/10 transition-all">
-                        تحديث النموذج
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Strategic Report -->
-        <section id="report-anchor" class="space-y-10">
-            <div id="report-container" class="hidden glass-card p-16 rounded-[3.5rem] report-typography border border-white/5 shadow-2xl">
-                <div id="report-header" class="border-b border-white/5 pb-10 mb-12 flex justify-between items-start">
-                    <div>
-                        <h2 class="text-3xl font-black text-white mb-3">التقرير الاستراتيجي للصلابة السيادية</h2>
-                        <p class="text-saudi-emerald font-black text-[10px] uppercase tracking-[0.3em]">Confidential - Sovereign Strategic Document</p>
-                    </div>
-                    <div class="text-left">
-                        <p id="report-date" class="text-slate-500 text-[10px] font-bold uppercase"></p>
-                    </div>
-                </div>
-                <div id="report-content" class="space-y-16"></div>
             </div>
         </section>
 
     </main>
 
+    <!-- Navigation (Mobile) -->
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 flex gap-4 glass-card px-6 py-4 rounded-full no-print z-50 shadow-2xl">
+        <a href="#corporate-simulator" class="text-slate-400 hover:text-emerald-400 transition-colors"><i class="fas fa-building text-lg"></i></a>
+        <a href="#advanced-analytics" class="text-slate-400 hover:text-emerald-400 transition-colors"><i class="fas fa-chart-simple text-lg"></i></a>
+    </div>
+
     <script>
         (function() {
+            var entities = {
+                ministries: [
+                    { id: "moe", name: "وزارة الطاقة", multiplier: 1.1, risk: 0.8 },
+                    { id: "mof", name: "وزارة المالية", multiplier: 1.15, risk: 0.7 },
+                    { id: "moi", name: "وزارة الاستثمار", multiplier: 1.2, risk: 0.85 },
+                    { id: "moci", name: "وزارة التجارة", multiplier: 1.1, risk: 0.75 }
+                ],
+                sovereign: [
+                    { id: "pif", name: "صندوق الاستثمارات العامة", multiplier: 1.4, risk: 0.9 },
+                    { id: "sama", name: "البنك المركزي السعودي", multiplier: 1.35, risk: 0.6 },
+                    { id: "ndmc", name: "المركز الوطني لإدارة الدين", multiplier: 1.3, risk: 0.65 }
+                ],
+                leading_corporates: [
+                    { id: "aramco", name: "أرامكو السعودية", multiplier: 1.2, risk: 0.8 },
+                    { id: "stc", name: "stc", multiplier: 1.2, risk: 0.75 },
+                    { id: "sabic", name: "سابك", multiplier: 1.15, risk: 0.85 },
+                    { id: "maaden", name: "معادن", multiplier: 1.1, risk: 0.9 },
+                    { id: "fin_sector", name: "القطاع المالي والمصرفي", multiplier: 1.3, risk: 0.7 },
+                    { id: "log_sector", name: "قطاع النقل واللوجستيات", multiplier: 1.25, risk: 0.8 }
+                ]
+            };
+
+            var visionPrograms = [
+                "برنامج تطوير الصناعة الوطنية والخدمات اللوجستية (NIDLP)",
+                "برنامج صندوق الاستثمارات العامة (PIF)",
+                "برنامج الاستدامة المالية",
+                "برنامج تحول القطاع الصحي",
+                "برنامج الإسكان",
+                "برنامج خدمة ضيوف الرحمن",
+                "برنامج جودة الحياة",
+                "برنامج تنمية القدرات البشرية"
+            ];
+
             function getEl(id) { return document.getElementById(id); }
 
-            window.updateDashboard = function() {
-                var entitySelect = getEl('entity-select');
-                var crisisSelect = getEl('crisis-select');
-                var capexSlider = getEl('capex-slider');
-                
-                if (!entitySelect || !crisisSelect || !capexSlider) return;
+            window.updateEntityList = function() {
+                var category = getEl('category-select').value;
+                var select = getEl('entity-select');
+                select.innerHTML = "";
+                if (entities[category]) {
+                    entities[category].forEach(function(e) {
+                        var opt = document.createElement('option');
+                        opt.value = e.id;
+                        opt.innerText = e.name;
+                        opt.setAttribute('data-multiplier', e.multiplier);
+                        opt.setAttribute('data-risk', e.risk);
+                        select.appendChild(opt);
+                    });
+                }
+                window.updateMetrics();
+            };
 
-                var selectedOption = entitySelect.options[entitySelect.selectedIndex];
-                var sectorRisk = parseFloat(selectedOption.getAttribute('data-risk'));
-                var readiness = parseFloat(selectedOption.getAttribute('data-readiness'));
+            window.updateMetrics = function() {
+                var capex = parseInt(getEl('capex-slider').value);
+                var entitySelect = getEl('entity-select');
+                var risk = entitySelect.options.length > 0 ? parseFloat(entitySelect.options[entitySelect.selectedIndex].getAttribute('data-risk')) : 0.8;
                 
-                var crisisImpact = parseFloat(crisisSelect.value);
-                var hedgeLevel = parseInt(capexSlider.value) / 100;
-                
-                getEl('capex-val').innerText = (hedgeLevel * 100).toFixed(0) + '%';
+                getEl('capex-val').innerText = capex + "%";
+
+                // Golden Metrics Logic
+                var impactRed = (capex * 0.4).toFixed(1);
+                var readiness = (60 + (capex * 0.3)).toFixed(1);
+                var lossPrev = (15 + (capex * 0.2)).toFixed(1);
+                var cashflow = (30 + (capex * 0.2)).toFixed(1);
+
+                getEl('impact-reduction-val').innerText = impactRed + "%";
+                getEl('impact-reduction-fill').style.width = impactRed + "%";
+                getEl('org-readiness-val').innerText = readiness + "%";
+                getEl('org-readiness-fill').style.width = readiness + "%";
+                getEl('loss-prevention-val').innerText = lossPrev + "%";
+                getEl('loss-prevention-fill').style.width = lossPrev + "%";
+                getEl('cashflow-val').innerText = cashflow + "%";
+                getEl('cashflow-fill').style.width = cashflow + "%";
+
+                // Mathematical Modeling
+                // RAROR = (Crisis Impact * (1 - Hedge Level)) / Sovereign Buffer
+                // Simplified for simulation: Crisis Impact assumed 100, Buffer assumed 50
+                var hedge = capex / 100;
+                var raror = (100 * (1 - hedge)) / 50;
+                getEl('raror-val').innerText = raror.toFixed(2);
 
                 // SRB = (CapEx Redirection * Readiness) / Sector Risk
-                var srb = (hedgeLevel * readiness) / sectorRisk;
-                getEl('srb-display').innerText = srb.toFixed(2);
-
-                // RAROR = (Crisis Impact * (1 - Hedge Level)) / Sovereign Buffer
-                var raror = (crisisImpact * (1 - hedgeLevel)) / srb;
-                getEl('raror-display').innerText = raror.toFixed(3);
-
-                // Target Metrics logic
-                var impactReduction = (hedgeLevel * 0.45) * 100;
-                var cashFlowMain = (30 + (hedgeLevel * 40));
-                var growthProtection = (readiness * (1 - (crisisImpact * (1-hedgeLevel)))) * 100;
-
-                getEl('target-impact').innerText = impactReduction.toFixed(0) + '%';
-                getEl('bar-impact').style.width = impactReduction + '%';
-
-                getEl('target-cash').innerText = cashFlowMain.toFixed(0) + '%';
-                getEl('bar-cash').style.width = cashFlowMain + '%';
-
-                getEl('target-growth').innerText = growthProtection.toFixed(0) + '%';
-                getEl('bar-growth').style.width = growthProtection + '%';
+                var srb = (capex * (readiness / 100)) / risk;
+                getEl('srb-val').innerText = srb.toFixed(2);
             };
 
             window.executeStrategicAnalysis = function() {
-                var container = getEl('report-container');
                 var content = getEl('report-content');
-                if (!container || !content) return;
+                var status = getEl('ai-status');
+                var entity = getEl('entity-select').options[getEl('entity-select').selectedIndex].text;
+                var crisis = getEl('crisis-select').options[getEl('crisis-select').selectedIndex].text;
+                var capex = getEl('capex-slider').value;
+                var raror = getEl('raror-val').innerText;
+                var srb = getEl('srb-val').innerText;
 
-                container.classList.remove('hidden');
-                getEl('report-date').innerText = new Date().toLocaleDateString('ar-SA');
-                
-                var entityName = getEl('entity-select').options[getEl('entity-select').selectedIndex].text;
-                var rarorVal = getEl('raror-display').innerText;
-                var srbVal = getEl('srb-display').innerText;
-                var hedge = getEl('capex-val').innerText;
+                status.classList.remove('hidden');
+                content.innerHTML = "<div class='flex items-center justify-center py-20'><i class='fas fa-circle-notch fa-spin text-4xl text-emerald-500'></i></div>";
 
-                var html = '';
+                setTimeout(function() {
+                    status.classList.add('hidden');
+                    var report = "";
+                    
+                    // Section 1: Executive Assessment
+                    report += "<div class='space-y-4 border-b border-white/5 pb-8'>";
+                    report += "<h4 class='text-emerald-400 font-black text-lg flex items-center gap-3'><i class='fas fa-briefcase'></i> 1. التقييم التنفيذي الاستراتيجي (Executive Assessment)</h4>";
+                    report += "<p class='text-slate-300 leading-relaxed text-xs'>بناءً على النمذجة المتقدمة لكيان <span class='text-white font-bold'>" + entity + "</span>، نخلص إلى أن التعرض الحالي لأزمة <span class='text-white font-bold'>" + crisis + "</span> يتطلب استجابة فورية وحاسمة. إن استراتيجية التحوط الاستثماري (CapEx Hedging) المقترحة بنسبة <span class='text-gold-accent font-bold'>" + capex + "%</span> تمثل الخط الدفاعي الأول لضمان استمرارية الأعمال وحماية الميزانية العمومية من التآكل الناتج عن الصدمات الخارجية.</p>";
+                    report += "<p class='text-slate-300 leading-relaxed text-xs'>تعتبر هذه النسبة كافية لإعادة توجيه التدفقات النقدية نحو الأصول الأكثر مرونة، مما يقلل الاعتماد على الديون قصيرة الأجل ويحافظ على تصنيف الائتمان السيادي للجهة في ظل ظروف السوق المتقلبة.</p>";
+                    report += "</div>";
 
-                // Section 1: Executive Assessment
-                html += '<div><h3>أولاً: تقييم الصلابة الاستراتيجية والقيادة التنفيذية</h3>';
-                html += '<p>بناءً على المعطيات الجيوسياسية الراهنة، يستعرض هذا التقرير تحليل الأثر الاستراتيجي لكيان ' + entityName + ' تحت ضغوط سيناريوهات الأزمات المختارة. إن اعتماد فلسفة "التحوط الاستثماري" (CapEx Hedging) بنسبة ' + hedge + ' يمثل تحولاً جوهرياً من سياسات رد الفعل إلى الاستباقية السيادية. هذا النهج يضمن إعادة توجيه التدفقات النقدية من مشاريع التوسع غير الحرجة إلى أصول ذات كفاءة تشغيلية عالية، مما يحافظ على سيولة الكيان دون الحاجة إلى زيادة أعباء الدين العام أو الالتزامات الائتمانية الدولية في وقت الأزمات.</p>';
-                html += '<p>إن التركيز على ميزانية التوسع (Expansion Budget) وتسييلها جزئياً في أصول "مقاومة للتعطيل" يمنح القيادة الاستراتيجية نافذة زمنية أوسع لاتخاذ القرار، حيث يتم تقليل الاعتماد على الأسواق المالية الخارجية بنسبة تصل إلى 35%. يعكس هذا التقييم قدرة ' + entityName + ' على امتصاص الصدمات الهيكلية دون المساس بجوهر الأداء المالي المستدام.</p></div>';
+                    // Section 2: Mathematical Modeling
+                    report += "<div class='space-y-4 border-b border-white/5 pb-8'>";
+                    report += "<h4 class='text-emerald-400 font-black text-lg flex items-center gap-3'><i class='fas fa-square-root-variable'></i> 2. النمذجة الرياضية وتحليل البيانات (RAROR & SRB Modeling)</h4>";
+                    report += "<div class='grid grid-cols-1 md:grid-cols-2 gap-4 my-6'>";
+                    report += "<div class='bg-slate-900/80 p-4 rounded-2xl border border-emerald-500/20'><p class='text-[10px] text-slate-500 uppercase font-black mb-1'>RAROR Score</p><p class='text-2xl font-black text-emerald-400'>" + raror + "</p><p class='text-[9px] text-slate-400 mt-2'>العائد المعدل حسب المخاطر على الصمود الاستراتيجي.</p></div>";
+                    report += "<div class='bg-slate-900/80 p-4 rounded-2xl border border-gold-accent/20'><p class='text-[10px] text-slate-500 uppercase font-black mb-1'>SRB Buffer</p><p class='text-2xl font-black text-gold-accent'>" + srb + "</p><p class='text-[9px] text-slate-400 mt-2'>مخزون الصمود السيادي المتاح للجهة.</p></div>";
+                    report += "</div>";
+                    report += "<p class='text-slate-300 leading-relaxed text-xs'>تشير قيمة RAROR البالغة <span class='text-white'>" + raror + "</span> إلى كفاءة عالية في تحويل استثمارات الصمود إلى قيمة مضافة حقيقية. من خلال معادلة SRB، يتبين أن الجهة تمتلك هامش أمان سيادي يتناسب طردياً مع مستوى جاهزية الأفراد والأنظمة التقنية المطبقة حالياً.</p>";
+                    report += "</div>";
 
-                // Section 2: Mathematical Modeling
-                html += '<div><h3>ثانياً: النمذجة الرياضية للقيم المضافة (RAROR & SRB)</h3>';
-                html += '<div class="report-grid">';
-                html += '<div class="report-metric-box"><span class="text-[10px] text-slate-500 font-black block mb-2 uppercase tracking-widest">Risk-Adjusted Return on Resilience</span><span class="text-3xl font-black text-white">' + rarorVal + '</span></div>';
-                html += '<div class="report-metric-box"><span class="text-[10px] text-slate-500 font-black block mb-2 uppercase tracking-widest">Sovereign Resilience Buffer</span><span class="text-3xl font-black text-white">' + srbVal + '</span></div>';
-                html += '</div>';
-                html += '<p>تعد معادلة RAROR حجر الزاوية في هذا النموذج، حيث تقيس العائد المحقق من استثمارات الصلابة مقابل المخاطر المتبقية بعد التحوط. إن القيمة المرصودة (' + rarorVal + ') تشير إلى كفاءة عالية في استخدام رأس المال الوقائي. من جانب آخر، يعبر مؤشر SRB عن "الصدفة السيادية" المتوفرة، والتي تم حسابها بموازنة كثافة التحوط مع جاهزية الكيان التشغيلية ومخاطر القطاع النوعية.</p>';
-                html += '<p>يظهر التحليل أن بلوغ مستهدف خفض الأثر بنسبة ' + getEl('target-impact').innerText + ' يتطلب مواءمة دقيقة بين الأصول السائلة وبين متطلبات التشغيل الحرجة. الرياضة المالية المستخدمة هنا تتجاوز معايير المحاسبة التقليدية لتدخل في نطاق "هندسة البقاء السيادي"، حيث يتم تحويل المخاطر إلى فرص لإعادة الهيكلة بتكلفة صفرية تقريباً عبر استغلال ميزانيات النمو المجمدة مؤقتاً.</p></div>';
+                    // Section 3: Response Architecture
+                    report += "<div class='space-y-4 border-b border-white/5 pb-8'>";
+                    report += "<h4 class='text-emerald-400 font-black text-lg flex items-center gap-3'><i class='fas fa-layer-group'></i> 3. هيكلية الاستجابة عبر الآفاق الزمنية (Horizons 1/2/3)</h4>";
+                    report += "<div class='space-y-6'>";
+                    report += "<div><h5 class='text-[11px] font-black text-red-400 mb-2'>الأفق الأول: الاحتواء الفوري (0-30 يوم)</h5><p class='text-xs text-slate-400'>عزل الميزانيات غير الأساسية وتجميد الإنفاق التوسعي في المناطق الجغرافية المتأثرة بالأزمة، مع تفعيل بروتوكول الصمود النقدي الفوري.</p></div>";
+                    report += "<div><h5 class='text-[11px] font-black text-yellow-400 mb-2'>الأفق الثاني: التكيف الهيكلي (1-6 أشهر)</h5><p class='text-xs text-slate-400'>إعادة تشكيل سلاسل الإمداد والاعتماد على الموردين المحليين المعتمدين ضمن برنامج 'ندلب'، وتوطين التقنيات الحرجة لضمان استقلالية القرار.</p></div>";
+                    report += "<div><h5 class='text-[11px] font-black text-emerald-400 mb-2'>الأفق الثالث: السيادة الاستراتيجية (6 أشهر +)</h5><p class='text-xs text-slate-400'>تحويل الأزمة إلى فرصة لامتلاك أصول استراتيجية عالمية بأسعار مخفضة، وتعزيز المكانة القيادية للمملكة في القطاع المستهدف.</p></div>";
+                    report += "</div>";
+                    report += "</div>";
 
-                // Section 3: Horizons Response Architecture
-                html += '<div><h3>ثالثاً: هيكلية الاستجابة عبر الآفاق الثلاثة (Horizons 1/2/3)</h3>';
-                html += '<p><b>الأفق الأول (الاستجابة الفورية):</b> تفعيل بروتوكولات الحفاظ على السيولة النقدية عبر تعليق 40% من النفقات غير الأساسية وتفعيل أصول التحوط لضمان استمرارية الرواتب والعمليات الأساسية. التركيز هنا ينصب على الحفاظ على "نفقات التشغيل" (OpEx) عبر تسييل "نفقات رأس المال" (CapEx) المحوطة.</p>';
-                html += '<p><b>الأفق الثاني (التعافي الهيكلي):</b> إعادة تقييم سلاسل الإمداد وتوطين المكونات الحرجة بنسبة استهداف تفوق 70%. يتم في هذه المرحلة استخدام مخرجات الصلابة لتمويل الابتكار في بدائل الموارد، مما يحول الأزمة إلى محفز للتحول الصناعي النوعي.</p>';
-                html += '<p><b>الأفق الثالث (الريادة المستدامة):</b> ترسيخ مكانة ' + entityName + ' ككيان عالمي مرجعي في إدارة المخاطر السيادية. يتم هنا دمج نتائج المحاكاة في الخطط الخمسية القادمة، مما يضمن أن يكون "التحوط الاستثماري" جزءاً لا يتجزأ من الثقافة المؤسسية والمالية للدولة.</p></div>';
+                    // Section 4: Vision 2030 Mapping
+                    report += "<div class='space-y-4 pb-8'>";
+                    report += "<h4 class='text-emerald-400 font-black text-lg flex items-center gap-3'><i class='fas fa-crown'></i> 4. الموائمة مع برامج رؤية المملكة 2030 (Strategic Mapping)</h4>";
+                    report += "<p class='text-slate-300 leading-relaxed text-xs'>تتوافق هذه التوصيات بشكل مباشر مع الأهداف الاستراتيجية لبرامج الرؤية، وتحديداً:</p>";
+                    report += "<ul class='grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-slate-400 list-inside list-disc'>";
+                    visionPrograms.forEach(function(prog) {
+                        report += "<li>" + prog + "</li>";
+                    });
+                    report += "</ul>";
+                    report += "<p class='text-slate-300 leading-relaxed text-xs mt-4'>إن ضمان استمرارية هذه البرامج في ظل الأزمات هو حجر الزاوية في استراتيجية الصمود الوطنية، وتعتبر شركة <span class='text-white'>" + entity + "</span> ممكناً رئيساً لتحقيق هذه المستهدفات العظيمة.</p>";
+                    report += "</div>";
 
-                // Section 4: Vision 2030 Mapping
-                html += '<div><h3>رابعاً: المواءمة الديناميكية مع برامج رؤية المملكة 2030</h3>';
-                html += '<p>تتكامل مخرجات هذا النموذج بشكل مباشر مع البرامج التنفيذية للرؤية، وتحديداً:</p>';
-                html += '<ul class="space-y-4 text-xs text-slate-400 font-bold pr-6 border-r border-saudi-emerald">';
-                html += '<li><b>برنامج تطوير الصناعة الوطنية والخدمات اللوجستية (NIDLP):</b> عبر تأمين سلاسل الإمداد وحماية الميزان التجاري من الصدمات الخارجية.</li>';
-                html += '<li><b>برنامج صندوق الاستثمارات العامة (PIF):</b> من خلال تعظيم كفاءة استثمار الأصول الاستراتيجية تحت ظروف عدم اليقين.</li>';
-                html += '<li><b>برنامج الاستدامة المالية:</b> عبر تقديم نموذج بديل للاقتراض يرتكز على إعادة تدوير رأس المال الداخلي لضمان الصلابة.</li>';
-                html += '<li><b>برنامج جودة الحياة:</b> من خلال ضمان عدم تأثر الخدمات الأساسية المقدمة للمواطنين نتيجة التقلبات الاقتصادية الكبرى.</li>';
-                html += '</ul>';
-                html += '<p class="mt-8 pt-8 border-t border-white/5 text-[10px] text-center opacity-50 font-black">نهاية التقرير الاستراتيجي - معتمد من وحدة الصلابة السيادية</p></div>';
-
-                content.innerHTML = html;
-                container.scrollIntoView({ behavior: 'smooth' });
-            };
-
-            window.injectScenario = function() {
-                var threat = getEl('custom-threat').value;
-                var severity = getEl('custom-severity').value;
-                if (!threat) return;
-                
-                var select = getEl('crisis-select');
-                var opt = document.createElement('option');
-                opt.value = severity;
-                opt.innerText = threat + ' (Custom Modeling)';
-                select.appendChild(opt);
-                select.value = severity;
-                
-                window.updateDashboard();
+                    content.innerHTML = report;
+                }, 1500);
             };
 
             document.addEventListener('DOMContentLoaded', function() {
-                var slider = getEl('capex-slider');
-                var entity = getEl('entity-select');
-                var crisis = getEl('crisis-select');
+                getEl('capex-slider').addEventListener('input', window.updateMetrics);
+                getEl('category-select').addEventListener('change', window.updateEntityList);
+                getEl('entity-select').addEventListener('change', window.updateMetrics);
+                getEl('crisis-select').addEventListener('change', window.updateMetrics);
                 
-                if (slider) slider.addEventListener('input', window.updateDashboard);
-                if (entity) entity.addEventListener('change', window.updateDashboard);
-                if (crisis) crisis.addEventListener('change', window.updateDashboard);
-                
-                window.updateDashboard();
+                window.updateEntityList();
             });
         })();
     </script>
